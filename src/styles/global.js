@@ -1,31 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
 
-export default createGlobalStyle`
-
-:root {
-  font-size: 62.5%;
-    @media (max-width: 1024px) {
-    font-size: 54.7%;
-  }
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: ${({ theme }) => theme.COLORS.DARK_400};
-  color: ${({ theme }) => theme.COLORS.LIGHT_100};
-}
-
-button {
-  cursor: pointer;
-}
-
-`
-
 const fontWeight = {
   poppinsRegular: `
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
@@ -126,3 +100,38 @@ export const fontStyles = {
     line-height: normal;
   `,
 }
+
+export default createGlobalStyle`
+
+:root {
+  font-size: 62.5%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: ${({ theme }) => theme.COLORS.DARK_400};
+  color: ${({ theme }) => theme.COLORS.LIGHT_100};
+
+  -webkit-font-smoothing: antialiased;
+}
+
+input {
+  ${fontStyles.robotoSmallRegular}
+}
+
+label {
+  ${fontStyles.robotoSmallRegular}
+  display: block;
+  color: ${({ theme }) => theme.COLORS.LIGHT_400};
+}
+
+button, label {
+  cursor: pointer;
+}
+
+`

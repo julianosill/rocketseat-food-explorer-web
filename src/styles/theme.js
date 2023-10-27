@@ -1,13 +1,4 @@
 export default {
-  SCREENS: {
-    XS: 'min-width: 425px',
-    SM: 'min-width: 768px',
-    MD: 'min-width: 1024px',
-    LG: 'min-width: 1280px',
-    XL: 'min-width: 1440px',
-    XXL: 'min-width: 2560px',
-  },
-
   COLORS: {
     LIGHT_100: '#FFFFFF',
     LIGHT_200: '#FFFAF1',
