@@ -39,6 +39,11 @@ export const fontStyles = {
     font-size: 2.4rem;
     line-height: 1.4;
   `,
+  poppins300Medium: `
+    ${fontWeight.poppinsMedium}
+    font-size: 2.4rem;
+    line-height: 1.4;
+  `,
   poppins300Bold: `
     ${fontWeight.poppinsBold}
     font-size: 2.4rem;
@@ -120,18 +125,70 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+ul {
+  list-style: none;
+}
+
 input {
   ${fontStyles.robotoSmallRegular}
+
+  &::placeholder {
+    color: ${({ theme }) => theme.COLORS.LIGHT_500};
+  }
+
+  &:focus {
+    border-color: ${({ theme }) => theme.COLORS.CAKE_200};
+    outline-color: ${({ theme }) => theme.COLORS.CAKE_200};
+    outline-width: 1px;
+    outline-style: solid;
+  }
 }
 
 label {
   ${fontStyles.robotoSmallRegular}
+  
   display: block;
+  cursor: pointer;
   color: ${({ theme }) => theme.COLORS.LIGHT_400};
+
 }
 
-button, label {
+button {
+  ${fontStyles.poppins100Medium}
+  
+  background: none;
+  border: none;
   cursor: pointer;
+  outline-offset: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.3s ease;
+  
+  &:focus {
+    outline-color: ${({ theme }) => theme.COLORS.CAKE_200};
+    outline-width: 1px;
+    outline-style: solid;
+  }
+
+  &:disabled {
+    cursor: default;
+    outline: none;
+  }
 }
 
 `

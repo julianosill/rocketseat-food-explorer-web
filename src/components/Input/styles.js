@@ -6,18 +6,6 @@ export const Container = styled.input`
   border: none;
   border-radius: 0.8rem;
 
-  padding: 0 1.4rem;
+  padding: 1.2rem 1.4rem;
   width: 100%;
-  height: 4.8rem;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.COLORS.LIGHT_500};
-  }
-
-  &:focus {
-    border-color: ${({ theme }) => theme.COLORS.CAKE_200};
-    outline-color: ${({ theme }) => theme.COLORS.CAKE_200};
-    outline-width: 1px;
-    outline-style: solid;
-  }
 `
