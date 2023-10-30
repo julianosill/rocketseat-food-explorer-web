@@ -121,7 +121,7 @@ export default createGlobalStyle`
 body {
   background-color: ${({ theme }) => theme.COLORS.DARK_400};
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
-
+  line-height: 1;
   -webkit-font-smoothing: antialiased;
 }
 
