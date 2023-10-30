@@ -5,7 +5,6 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 export const Footer = styled.footer`
   width: 100%;
   padding: 2.4rem 0;
-
   background-color: ${({ theme }) => theme.COLORS.DARK_600};
 
   > div {
@@ -14,16 +13,20 @@ export const Footer = styled.footer`
     justify-content: space-between;
     align-items: center;
     gap: 3.2rem;
+  }
 
-    @media (max-width: ${BREAKPOINTS.MD}) {
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    > div {
       gap: 1.6rem;
     }
   }
 `
 
-export const Logo = styled.img`
+export const Brand = styled.div`
   width: 100%;
   max-width: 18rem;
+  display: flex;
+  align-items: center;
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     width: 12rem;
