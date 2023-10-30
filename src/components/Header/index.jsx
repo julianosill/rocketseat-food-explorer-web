@@ -1,14 +1,15 @@
 import { useState } from 'react'
 
-import logo from '../../assets/logo.svg'
 import { FiLogOut, FiSearch } from 'react-icons/fi'
 import { PiReceipt } from 'react-icons/pi'
 import { SlMenu } from 'react-icons/sl'
 
 import { Container } from '../Container'
+import { Logo } from '../Logo'
 import * as S from './styles'
 
 export function Header() {
+  const [isAdmin, setIsAdmin] = useState(false)
   const [cart, setCart] = useState(null)
 
   return (
@@ -17,7 +18,9 @@ export function Header() {
         <S.MenuButton>
           <SlMenu />
         </S.MenuButton>
-        <S.Logo src={logo} alt="Food Explorer" />
+        <S.Brand>
+          <Logo admin={isAdmin} />
+        </S.Brand>
         <S.Search>
           <S.Label htmlFor="search">
             <span className=" sr-only">Pesquisar</span>

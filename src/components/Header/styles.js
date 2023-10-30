@@ -39,7 +39,9 @@ export const MenuButton = styled.button`
   }
 `
 
-export const Logo = styled.img`
+export const Brand = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
   max-width: 18rem;
 `
