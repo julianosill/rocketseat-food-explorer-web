@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { fontStyles } from '../../styles/global'
+import { FONT_STYLES } from '../../styles/fontStyles'
 
 export const Container = styled.button`
-  ${fontStyles.poppins100Medium}
+  ${FONT_STYLES.poppins100Medium}
   padding: 1.2rem 2.4rem;
 
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
