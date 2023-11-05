@@ -9,7 +9,7 @@ export function PageWrapper({ page }) {
   return (
     <S.Container>
       <Header />
-      <main>{page}</main>
+      <S.Main>{page}</S.Main>
       <Footer />
     </S.Container>
   )
