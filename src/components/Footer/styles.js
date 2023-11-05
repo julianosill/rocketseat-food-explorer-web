@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { fontStyles } from '../../styles/global'
+import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Footer = styled.footer`
@@ -34,7 +34,7 @@ export const Brand = styled.div`
 `
 
 export const Copyright = styled.div`
-  ${fontStyles.robotoSmallerRegular}
+  ${FONT_STYLES.robotoSmallerRegular}
   color: ${({ theme }) => theme.COLORS.LIGHT_200};
 
   @media (max-width: ${BREAKPOINTS.SM}) {
