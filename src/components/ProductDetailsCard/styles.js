@@ -38,10 +38,12 @@ export const Details = styled.section`
 
   > h1 {
     ${FONT_STYLES.poppins500Medium}
+    color: ${({ theme }) => theme.COLORS.LIGHT_300};
   }
 
   > p {
     ${FONT_STYLES.poppins300Regular}
+    color: ${({ theme }) => theme.COLORS.LIGHT_300};
   }
 
   @media (max-width: ${BREAKPOINTS.MD}) {
