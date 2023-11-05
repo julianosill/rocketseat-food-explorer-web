@@ -2,19 +2,23 @@ import PropTypes from 'prop-types'
 
 import { FiMinus, FiPlus } from 'react-icons/fi'
 
-import { Container } from './styles'
+import * as S from './styles'
 
 export function Stepper({ amount, increase, decrease }) {
   return (
-    <Container>
-      <button onClick={decrease}>
+    <S.Container>
+      <button
+        onClick={decrease}
+        disabled={amount <= 1}
+        title="Diminuir unidades"
+      >
         <FiMinus />
       </button>
       {amount < 10 ? `0${amount}` : amount}
-      <button onClick={increase}>
+      <button onClick={increase} title="Aumentar unidades">
         <FiPlus />
       </button>
-    </Container>
+    </S.Container>
   )
 }
 
