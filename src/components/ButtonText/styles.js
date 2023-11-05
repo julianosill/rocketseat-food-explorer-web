@@ -1,15 +1,11 @@
 import styled from 'styled-components'
-import { fontStyles } from '../../styles/global'
+import { FONT_STYLES } from '../../styles/fontStyles'
 
 export const Container = styled.button`
-  ${fontStyles.poppins100Medium}
-
-  background: none;
-  border: none;
+  ${FONT_STYLES.poppins100Medium}
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
 
   &:hover {
-    color: ${({ theme }) => theme.COLORS.LIGHT_200};
     filter: brightness(0.85);
   }
 `
