@@ -3,7 +3,7 @@ import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Container = styled.div`
-  padding: 4.2rem 0;
+  padding-top: 4.2rem;
 
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    padding: 1.6rem 0;
+    padding-top: 1.6rem;
     text-align: center;
     flex-direction: column;
   }
