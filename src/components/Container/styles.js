@@ -7,7 +7,7 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: 0 12.3rem;
 
-  @media (max-width: ${BREAKPOINTS.MD}) {
+  @media (max-width: ${BREAKPOINTS.LG}) {
     padding: 0 2.8rem;
   }
 `

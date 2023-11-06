@@ -16,15 +16,13 @@ export const Container = styled.div`
 
 export const Main = styled.main`
   width: 100%;
-  max-width: ${BREAKPOINTS.XL};
-  margin: 0 auto;
-  padding: 12.5rem 12.3rem 4.8rem;
+  padding: 12.5rem 0 4.8rem;
 
   @media (max-width: ${BREAKPOINTS.MD}) {
-    padding: 12.5rem 2.8rem 4.8rem;
+    padding: 12.5rem 0 4.8rem;
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    padding: 15rem 2.8rem 4.8rem;
+    padding: 15rem 0 4.8rem;
   }
 `
