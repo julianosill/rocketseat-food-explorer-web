@@ -4,9 +4,9 @@ import { FiMinus, FiPlus } from 'react-icons/fi'
 
 import * as S from './styles'
 
-export function Stepper({ amount, increase, decrease }) {
+export function Stepper({ inProductCard, amount, increase, decrease }) {
   return (
-    <S.Container>
+    <S.Container $inproductcard={inProductCard}>
       <button
         onClick={decrease}
         disabled={amount <= 1}
@@ -23,6 +23,7 @@ export function Stepper({ amount, increase, decrease }) {
 }
 
 Stepper.propTypes = {
+  inProductCard: PropTypes.bool,
   amount: PropTypes.number.isRequired,
   increase: PropTypes.func.isRequired,
   decrease: PropTypes.func.isRequired,
