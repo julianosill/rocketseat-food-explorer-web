@@ -23,6 +23,6 @@ export const Main = styled.main`
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    padding: 15rem 0 4.8rem;
+    padding: 13rem 0 4.8rem;
   }
 `

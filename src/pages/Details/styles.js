@@ -3,8 +3,8 @@ import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Container = styled.div`
-  @media (max-width: ${BREAKPOINTS.MD}) {
-    padding: 0 2.8rem;
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    padding: 1.5rem 2.8rem 0;
   }
 `
 
