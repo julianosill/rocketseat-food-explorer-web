@@ -14,7 +14,7 @@ export function Stepper({ amount, increase, decrease }) {
       >
         <FiMinus />
       </button>
-      {amount < 10 ? `0${amount}` : amount}
+      <span>{amount < 10 ? `0${amount}` : amount}</span>
       <button onClick={increase} title="Aumentar unidades">
         <FiPlus />
       </button>
