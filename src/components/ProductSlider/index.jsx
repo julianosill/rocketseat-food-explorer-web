@@ -19,7 +19,7 @@ export function ProductSlider({ data }) {
       injectStyles: [S.NavButton, S.PrevButton, S.NextButton],
       breakpoints: {
         0: { slidesPerView: 1.25, spaceBetween: 16 },
-        425: { slidesPerView: 1.25, spaceBetween: 22 },
+        425: { slidesPerView: 2.25, spaceBetween: 16 },
         768: { slidesPerView: 2.5, spaceBetween: 28 },
         1024: { slidesPerView: 3.5, spaceBetween: 28 },
       },
