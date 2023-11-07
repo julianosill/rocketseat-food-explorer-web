@@ -27,7 +27,11 @@ export const Container = styled.div`
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    font-size: 2.2rem;
+    ${({ $inproductcard }) =>
+      $inproductcard === true
+        ? FONT_STYLES.robotoSmallRegular
+        : 'font-size: 2.2rem;'};
+
     > button {
       svg {
         font-size: 2.6rem;
