@@ -31,7 +31,10 @@ export default {
   },
 
   GRADIENTS: {
-    G100: 'linear-gradient(to right, rgba(0,15,15,0.2725), rgba(0,10,15,1))',
+    G100_RIGHT:
+      'linear-gradient(to right, rgba(0,15,15,0.2725), rgba(0,10,15,1))',
+    G100_LEFT:
+      'linear-gradient(to left, rgba(0,15,15,0.2725), rgba(0,10,15,1))',
     G200: 'linear-gradient(to bottom, #091E26, #00131C)',
   },
 }
