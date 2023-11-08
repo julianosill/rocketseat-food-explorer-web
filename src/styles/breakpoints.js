@@ -6,5 +6,6 @@ export const BREAKPOINTS = {
   XL: '1440px',
   MIN_SM: '769px',
   MIN_MD: '1025px',
+  MIN_LG: '1281px',
   MIN_XL: '1441px',
 }
