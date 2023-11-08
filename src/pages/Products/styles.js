@@ -123,6 +123,14 @@ export const Category = styled.section`
   margin-top: 4.8rem;
 
   > h2 {
+    ${FONT_STYLES.poppins400Medium}
     margin-bottom: 2.3rem;
+    color: ${({ theme }) => theme.COLORS.LIGHT_300};
+  }
+
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    > h2 {
+      font-size: 1.8rem;
+    }
   }
 `

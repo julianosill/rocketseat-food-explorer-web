@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { api } from '../../services/api'
 import { filterByCategory } from '../../services/handlers'
 
-import { Title } from '../../components/Title'
 import { Loading } from '../../components/Loading'
 import { LoadingFailed } from '../../components/LoadingFailed'
 import { ProductSlider } from '../../components/ProductSlider'
@@ -65,21 +64,21 @@ export function Products() {
 
       {products?.meals.length > 0 && (
         <S.Category>
-          <Title text="Refeições" />
+          <h2>Refeições</h2>
           <ProductSlider data={products.meals} />
         </S.Category>
       )}
 
       {products?.desserts.length > 0 && (
         <S.Category>
-          <Title text="Sobremesas" />
+          <h2>Sobremesas</h2>
           <ProductSlider data={products.desserts} />
         </S.Category>
       )}
 
       {products?.drinks.length > 0 && (
         <S.Category>
-          <Title text="Bebidas" />
+          <h2>Bebidas</h2>
           <ProductSlider data={products.drinks} />
         </S.Category>
       )}
