@@ -29,10 +29,7 @@ export function Details() {
         })
         .catch(error => {
           console.log(error)
-          let errorMessage = 'error'
-          if (error.response) {
-            errorMessage = error.response.data.message
-          }
+          const errorMessage = error.response.data.message || 'error'
           setRequestFailed(errorMessage)
         })
         .finally(() => setIsLoadingProduct(false))
