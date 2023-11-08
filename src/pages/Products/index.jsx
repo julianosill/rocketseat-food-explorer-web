@@ -31,7 +31,10 @@ export function Products() {
         })
         .catch(error => {
           console.log(error)
-          const errorMessage = error.response.data.message || 'error'
+          let errorMessage = 'error'
+          if (error.response) {
+            errorMessage = error.response.data.message
+          }
           setRequestFailed(errorMessage)
         })
         .finally(() => setIsLoadingProducts(false))
