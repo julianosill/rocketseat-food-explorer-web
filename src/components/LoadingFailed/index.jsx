@@ -6,15 +6,15 @@ import { handleFailedMessage } from '../../services/handlers'
 
 import * as S from './styles'
 
-export function LoadingFailed({ error }) {
+export function LoadingFailed({ message }) {
   return (
     <S.Container>
       <TbFaceIdError />
-      <p>{handleFailedMessage(error.message)}</p>
+      <p>{handleFailedMessage(message)}</p>
     </S.Container>
   )
 }
 
 LoadingFailed.propTypes = {
-  error: PropTypes.object.isRequired,
+  message: PropTypes.string,
 }

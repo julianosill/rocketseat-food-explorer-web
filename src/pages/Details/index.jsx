@@ -29,10 +29,8 @@ export function Details() {
         })
         .catch(error => {
           console.log(error)
-          if (error.response.data) {
-            setRequestFailed(error.response.data)
-          }
-          setProduct(null)
+          const errorMessage = error.response.data.message || 'error'
+          setRequestFailed(errorMessage)
         })
         .finally(() => setIsLoadingProduct(false))
     }
@@ -47,8 +45,8 @@ export function Details() {
       {isLoadingProduct && (
         <Loading text="Carregando deliciosas informações..." />
       )}
+      {requestFailed && <LoadingFailed message={requestFailed} />}
       {product && <ProductDetailsCard product={product} />}
-      {requestFailed && <LoadingFailed error={requestFailed} />}
     </S.Container>
   )
 }
