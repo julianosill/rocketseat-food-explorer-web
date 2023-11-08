@@ -32,6 +32,18 @@ body {
   border-width: 0;
 }
 
+a {
+  text-decoration: none;
+  outline-offset: 4px;
+
+  &:focus {
+    border-radius: 0.5rem;
+    outline-color: ${({ theme }) => theme.COLORS.CAKE_200};
+    outline-width: 1px;
+    outline-style: solid;
+  }
+}
+
 ul {
   list-style: none;
 }
@@ -48,7 +60,7 @@ button {
   border: none;
   cursor: pointer;
   outline-offset: 4px;
-  
+
   &:focus {
     border-radius: 0.5rem;
     outline-color: ${({ theme }) => theme.COLORS.CAKE_200};
