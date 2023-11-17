@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useAuth } from '../../hooks/auth.useAuth'
 import { imageBaseUrl } from '../../services/api'
-import { priceFormatter } from '../../services/formatters'
+import { formatNumberToPrice } from '../../services/formatters'
 
 import { PiReceipt } from 'react-icons/pi'
 
@@ -15,7 +15,7 @@ import * as S from './styles'
 export function ProductDetailsCard({ product }) {
   const { isAdmin } = useAuth()
   const [amount, setAmount] = useState(1)
-  const totalPrice = priceFormatter(amount * product.price)
+  const totalPrice = formatNumberToPrice(amount * product.price)
 
   function handleIncreaseAmount() {
     setAmount(prev => prev + 1)
