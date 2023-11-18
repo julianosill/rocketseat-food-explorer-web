@@ -15,8 +15,17 @@ export function InputUpload({ label, text, image, ...props }) {
       {label && <Label htmlFor={props.id}>{label}</Label>}
       <S.Container $image={image}>
         <label ref={labelRef} htmlFor={props.id}>
-          {image ? <img src={image} alt="Foto do produto" /> : <FiUpload />}
-          {text}
+          {image ? (
+            <>
+              <img src={image} alt="Foto do produto" />
+              {text}
+            </>
+          ) : (
+            <>
+              <FiUpload />
+              {text}
+            </>
+          )}
         </label>
         <input
           type="file"
@@ -32,6 +41,7 @@ export function InputUpload({ label, text, image, ...props }) {
 
 InputUpload.propTypes = {
   label: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
   image: PropTypes.string,
   id: PropTypes.string.isRequired,
 }
