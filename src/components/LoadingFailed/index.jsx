@@ -2,8 +2,7 @@ import PropTypes from 'prop-types'
 
 import { TbFaceIdError } from 'react-icons/tb'
 
-import { handleFailedMessage } from '../../services/handlers'
-
+import { handleFailedMessage } from '../../utils/handlers'
 import * as S from './styles'
 
 export function LoadingFailed({ message }) {
