@@ -1,12 +1,14 @@
 import styled from 'styled-components'
 import { FONT_STYLES } from '../../styles/fontStyles'
+import { ANIMATE } from '../../styles/animations'
 
 export const Container = styled.button`
   ${FONT_STYLES.poppins100Medium}
   padding: 1.2rem 2.4rem;
 
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
-  background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
+  background-color: ${({ theme, $variant }) =>
+    $variant === 'secondary' ? theme.COLORS.DARK_800 : theme.COLORS.TOMATO_100};
   border: none;
   border-radius: 0.5rem;
 
@@ -24,5 +26,10 @@ export const Container = styled.button`
   &:disabled,
   &:disabled:hover {
     background-color: ${({ theme }) => theme.COLORS.TOMATO_400};
+  }
+
+  > svg {
+    ${({ $loading }) => ($loading ? `${ANIMATE.spin}` : null)}
+    font-size: 2rem;
   }
 `
