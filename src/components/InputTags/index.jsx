@@ -43,6 +43,7 @@ export function InputTags({
         <S.TagItem $isnew>
           <input
             id={props.id}
+            type="text"
             value={newTag}
             onChange={e => setNewTag(e.target.value)}
             onKeyDown={e => {

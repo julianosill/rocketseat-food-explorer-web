@@ -21,13 +21,25 @@ export function InputPrice({ label, ...props }) {
   const currencyMask = createNumberMask(maskOptions)
 
   if (!label) {
-    return <MaskedInput mask={currencyMask} inputMode="numeric" {...props} />
+    return (
+      <MaskedInput
+        type="text"
+        mask={currencyMask}
+        inputMode="numeric"
+        {...props}
+      />
+    )
   }
 
   return (
     <S.Container>
       <Label htmlFor={props.id}>{label}</Label>
-      <MaskedInput mask={currencyMask} inputMode="numeric" {...props} />
+      <MaskedInput
+        type="text"
+        mask={currencyMask}
+        inputMode="numeric"
+        {...props}
+      />
     </S.Container>
   )
 }
