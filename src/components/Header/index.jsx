@@ -6,6 +6,7 @@ import { PiReceipt } from 'react-icons/pi'
 import { SlMenu } from 'react-icons/sl'
 
 import { useAuth } from '../../hooks/auth.useAuth'
+import { useStateProvider } from '../../hooks/components.useStateProvider'
 
 import { Container } from '../Container'
 import { Logo } from '../Logo'
@@ -16,17 +17,14 @@ import * as S from './styles'
 
 export function Header() {
   const { isAdmin, signOut, cart } = useAuth()
-  const [menuIsOpen, setMenuIsOpen] = useState(false)
+  const { setMenuIsOpen } = useStateProvider()
   const [expandedSearch, setExpandedSearch] = useState(false)
 
   const navigate = useNavigate()
 
   return (
     <>
-      <SideMenu
-        menuIsOpen={menuIsOpen}
-        onCloseMenu={() => setMenuIsOpen(false)}
-      />
+      <SideMenu />
       <S.Header>
         <Container>
           <S.MenuButton onClick={() => setMenuIsOpen(true)}>
