@@ -91,6 +91,11 @@ export const FONT_STYLES = {
     font-size: 1.6rem;
     line-height: 1;
   `,
+  robotoSmallBold: `
+    ${FONTS.robotoBold}
+    font-size: 1.6rem;
+    line-height: 1;
+  `,
   robotoBigRegular: `
     ${FONTS.robotoRegular}
     font-size: 2rem;
