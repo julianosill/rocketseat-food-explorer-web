@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 
 import * as S from './styles'
 
-export function ButtonText({ children, ...rest }) {
-  return <S.Container {...rest}>{children}</S.Container>
+export function ButtonText({ text, ...props }) {
+  return <S.Container {...props}>{text}</S.Container>
 }
 
 ButtonText.propTypes = {
-  children: PropTypes.node,
+  text: PropTypes.string,
 }
