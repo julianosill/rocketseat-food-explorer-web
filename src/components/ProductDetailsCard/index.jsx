@@ -40,7 +40,9 @@ export function ProductDetailsCard({ product }) {
           <S.Tags>
             {product.ingredients.map(tag => (
               <li key={tag}>
-                <button>{tag}</button>
+                <button onClick={() => navigate(`/produtos?pesquisa=${tag}`)}>
+                  {tag}
+                </button>
               </li>
             ))}
           </S.Tags>
