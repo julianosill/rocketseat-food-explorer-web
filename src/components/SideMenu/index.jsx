@@ -1,25 +1,24 @@
+import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
 import { TfiClose } from 'react-icons/tfi'
 import { FiSearch } from 'react-icons/fi'
 
 import { useAuth } from '../../hooks/auth.useAuth'
-import { useStateProvider } from '../../hooks/components.useStateProvider'
 
 import { Container } from '../Container'
 import { InputSearch } from '../InputSearch'
 import * as S from './styles'
 
-export function SideMenu() {
+export function SideMenu({ menuIsOpen, onCloseMenu }) {
   const { isAdmin, signOut } = useAuth()
-  const { menuIsOpen, setMenuIsOpen } = useStateProvider()
   const navigate = useNavigate()
 
   return (
     <S.Wrapper data-menu-is-open={menuIsOpen}>
       <S.Header>
         <Container>
-          <S.CloseMenu onClick={() => setMenuIsOpen(false)}>
+          <S.CloseMenu onClick={onCloseMenu}>
             <TfiClose /> Menu
           </S.CloseMenu>
         </Container>
@@ -50,4 +49,9 @@ export function SideMenu() {
       </Container>
     </S.Wrapper>
   )
+}
+
+SideMenu.propTypes = {
+  menuIsOpen: PropTypes.bool.isRequired,
+  onCloseMenu: PropTypes.func.isRequired,
 }
