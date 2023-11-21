@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 
 import { api } from '../../services/api'
-import { filterByCategory } from '../../services/handlers'
+import { handleFilterByCategory } from '../../utils/handlers'
 
+import headerImage from '../../assets/header.png'
 import { Loading } from '../../components/Loading'
 import { LoadingFailed } from '../../components/LoadingFailed'
 import { ProductSlider } from '../../components/ProductSlider'
-
-import headerImage from '../../assets/header.png'
 import * as S from './styles'
 
 export function Products() {
@@ -23,9 +22,9 @@ export function Products() {
         .get('/products')
         .then(response => {
           setProducts({
-            meals: filterByCategory('Refeições', response.data),
-            desserts: filterByCategory('Sobremesas', response.data),
-            drinks: filterByCategory('Bebidas', response.data),
+            dishes: handleFilterByCategory('Refeições', response.data),
+            desserts: handleFilterByCategory('Sobremesas', response.data),
+            drinks: handleFilterByCategory('Bebidas', response.data),
           })
         })
         .catch(error => {
@@ -62,10 +61,10 @@ export function Products() {
 
       {requestFailed && <LoadingFailed message={requestFailed} />}
 
-      {products?.meals.length > 0 && (
+      {products?.dishes.length > 0 && (
         <S.Category>
           <h2>Refeições</h2>
-          <ProductSlider data={products.meals} />
+          <ProductSlider data={products.dishes} />
         </S.Category>
       )}
 
