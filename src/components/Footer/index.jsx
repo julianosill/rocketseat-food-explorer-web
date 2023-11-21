@@ -6,9 +6,7 @@ export function Footer() {
   return (
     <S.Footer>
       <Container>
-        <S.Brand>
-          <Logo footer />
-        </S.Brand>
+        <Logo footer />
         <S.Copyright>© 2023 - Todos os direitos reservados</S.Copyright>
       </Container>
     </S.Footer>

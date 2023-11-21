@@ -22,17 +22,6 @@ export const Footer = styled.footer`
   }
 `
 
-export const Brand = styled.div`
-  width: 100%;
-  max-width: 18rem;
-  display: flex;
-  align-items: center;
-
-  @media (max-width: ${BREAKPOINTS.SM}) {
-    width: 12rem;
-  }
-`
-
 export const Copyright = styled.div`
   ${FONT_STYLES.robotoSmallerRegular}
   color: ${({ theme }) => theme.COLORS.LIGHT_200};
