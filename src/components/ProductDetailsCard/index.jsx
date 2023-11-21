@@ -1,21 +1,24 @@
 import PropTypes from 'prop-types'
 
 import { useState } from 'react'
-import { useAuth } from '../../hooks/auth.useAuth'
-import { imageBaseUrl } from '../../services/api'
-import { formatNumberToPrice } from '../../services/formatters'
+import { useNavigate } from 'react-router-dom'
 
 import { PiReceipt } from 'react-icons/pi'
 
+import { useAuth } from '../../hooks/auth.useAuth'
+import { imageUrl } from '../../services/api'
+import { formatToPrice } from '../../utils/formatters'
+
 import { Stepper } from '../../components/Stepper'
 import { Button } from '../../components/Button'
-
 import * as S from './styles'
 
 export function ProductDetailsCard({ product }) {
   const { isAdmin } = useAuth()
   const [amount, setAmount] = useState(1)
-  const totalPrice = formatNumberToPrice(amount * product.price)
+  const totalPrice = formatToPrice(amount * product.price)
+
+  const navigate = useNavigate()
 
   function handleIncreaseAmount() {
     setAmount(prev => prev + 1)
@@ -29,7 +32,7 @@ export function ProductDetailsCard({ product }) {
 
   return (
     <S.Container>
-      <img src={`${imageBaseUrl}/${product.image}`} alt={product.name} />
+      <img src={`${imageUrl}/${product.image}`} alt={product.name} />
       <S.Details>
         <h1>{product.name}</h1>
         <p>{product.description}</p>
@@ -43,7 +46,11 @@ export function ProductDetailsCard({ product }) {
           </S.Tags>
         )}
         <S.Actions>
-          {isAdmin && <Button>Editar prato</Button>}
+          {isAdmin && (
+            <Button onClick={() => navigate(`/editar/${product.id}`)}>
+              Editar prato
+            </Button>
+          )}
           {!isAdmin && (
             <>
               <Stepper
