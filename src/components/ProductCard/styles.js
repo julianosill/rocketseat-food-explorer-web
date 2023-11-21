@@ -36,6 +36,13 @@ export const Container = styled.div`
     }
   }
 
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
   img {
     width: 100%;
     max-width: 18rem;
