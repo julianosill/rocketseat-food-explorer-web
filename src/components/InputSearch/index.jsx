@@ -1,16 +1,28 @@
 import PropTypes from 'prop-types'
 
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { FiChevronRight } from 'react-icons/fi'
 
+import { useStateProvider } from '../../hooks/components.useStateProvider'
+
 import * as S from './styles'
-import { useState } from 'react'
 
 export function InputSearch({ label, icon: Icon, ...props }) {
+  const { setMenuIsOpen } = useStateProvider()
+
   const [query, setQuery] = useState('')
+
+  const navigate = useNavigate()
 
   function handleSubmit(e) {
     e.preventDefault()
-    console.log('submit')
+    if (query) {
+      navigate(`/produtos?pesquisa=${query}`)
+      setQuery('')
+      setMenuIsOpen(false)
+    }
   }
 
   return (
@@ -23,6 +35,7 @@ export function InputSearch({ label, icon: Icon, ...props }) {
         <S.Icon htmlFor={props.id}>
           <Icon />
         </S.Icon>
+
         <S.Input
           $hasIcon={Icon}
           type="text"
@@ -30,6 +43,7 @@ export function InputSearch({ label, icon: Icon, ...props }) {
           onChange={e => setQuery(e.target.value)}
           {...props}
         />
+
         {query && (
           <S.Button type="submit">
             <FiChevronRight />
