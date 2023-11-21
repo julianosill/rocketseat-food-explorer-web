@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-import { FONT_STYLES } from './fontStyles'
+import { BREAKPOINTS } from './breakpoints'
 
 export default createGlobalStyle`
 
@@ -32,7 +32,14 @@ body {
   border-width: 0;
 }
 
+.mobile-hide {
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    display: none;
+  }
+}
+
 a {
+  line-height: 0%;
   text-decoration: none;
   outline-offset: 4px;
 
@@ -46,13 +53,6 @@ a {
 
 ul {
   list-style: none;
-}
-
-label {
-  ${FONT_STYLES.robotoSmallRegular}
-  display: block;
-  cursor: pointer;
-  color: ${({ theme }) => theme.COLORS.LIGHT_400};
 }
 
 button {  
