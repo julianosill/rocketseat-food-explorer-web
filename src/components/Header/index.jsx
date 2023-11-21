@@ -32,7 +32,7 @@ export function Header() {
           </S.MenuButton>
           <S.Brand>
             <Link to="/">
-              <Logo admin={isAdmin} />
+              <Logo admin={isAdmin} header />
             </Link>
           </S.Brand>
           <S.Search className="mobile-hide">

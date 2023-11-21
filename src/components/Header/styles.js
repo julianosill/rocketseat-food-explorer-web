@@ -28,6 +28,12 @@ export const Header = styled.header`
   @media (max-width: ${BREAKPOINTS.SM}) {
     padding: 5.6rem 0 2.4rem;
   }
+
+  @media (max-width: ${BREAKPOINTS.XS}) {
+    > div {
+      gap: 1rem;
+    }
+  }
 `
 
 export const MenuButton = styled.button`
@@ -42,10 +48,8 @@ export const MenuButton = styled.button`
 `
 
 export const Brand = styled.div`
-  display: flex;
-  align-items: center;
-
   @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    display: flex;
     flex: 1;
   }
 `
