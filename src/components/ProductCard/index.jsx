@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../../hooks/auth.useAuth'
-import { imageBaseUrl } from '../../services/api'
-import { priceFormatter } from '../../services/formatters'
+import { imageUrl } from '../../services/api'
+import { formatToPrice } from '../../utils/formatters'
 
 import { FiHeart } from 'react-icons/fi'
 import { FaHeart } from 'react-icons/fa'
@@ -20,7 +20,8 @@ export function ProductCard({ product }) {
   const { isAdmin } = useAuth()
   const [amount, setAmount] = useState(1)
 
-  const totalPrice = priceFormatter(amount * product.price)
+  const totalPrice = formatToPrice(amount * product.price)
+  const navigate = useNavigate()
 
   function handleIncreaseAmount() {
     setAmount(prev => prev + 1)
@@ -34,25 +35,12 @@ export function ProductCard({ product }) {
 
   return (
     <S.Container $isAdmin={isAdmin}>
-      <S.CardAction>
-        {isAdmin ? (
-          <button>
-            <PiPencilSimple />
-          </button>
-        ) : (
-          <button>
-            <FiHeart />
-            {/* <FaHeart /> */}
-          </button>
-        )}
-      </S.CardAction>
-
-      <img src={`${imageBaseUrl}/${product.image}`} alt={product.name} />
       <Link to={`/produto/${product.id}`}>
+        <img src={`${imageUrl}/${product.image}`} alt={product.name} />
         <h3>{product.name}</h3>
+        <p>{product.description}</p>
       </Link>
-      <p>{product.description}</p>
-      <S.Price>{priceFormatter(totalPrice)}</S.Price>
+      <S.Price>{totalPrice}</S.Price>
 
       {!isAdmin && (
         <S.Actions>
@@ -66,6 +54,22 @@ export function ProductCard({ product }) {
           <Button>incluir</Button>
         </S.Actions>
       )}
+
+      <S.CardAction>
+        {isAdmin ? (
+          <button
+            onClick={() => navigate(`/admin/produto/${product.id}`)}
+            title="Editar produto"
+          >
+            <PiPencilSimple />
+          </button>
+        ) : (
+          <button>
+            <FiHeart />
+            {/* <FaHeart /> */}
+          </button>
+        )}
+      </S.CardAction>
     </S.Container>
   )
 }
