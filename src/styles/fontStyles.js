@@ -1,4 +1,8 @@
 const FONTS = {
+  poppinsLight: `
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+  `,
   poppinsRegular: `
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
     font-weight: 400;
@@ -31,6 +35,11 @@ export const FONT_STYLES = {
     ${FONTS.poppinsMedium}
     font-size: 2rem;
     line-height: 1.6;
+  `,
+  poppins300Light: `
+    ${FONTS.poppinsLight}
+    font-size: 2.4rem;
+    line-height: 1.4;
   `,
   poppins300Regular: `
     ${FONTS.poppinsRegular}
@@ -81,6 +90,11 @@ export const FONT_STYLES = {
     ${FONTS.robotoRegular}
     font-size: 1.6rem;
     line-height: 1;
+  `,
+  robotoBigRegular: `
+    ${FONTS.robotoRegular}
+    font-size: 2rem;
+    line-height: 1.6;
   `,
   robotoBigBold: `
     ${FONTS.robotoBold}
