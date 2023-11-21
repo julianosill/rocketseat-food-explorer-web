@@ -21,6 +21,10 @@ export const Header = styled.header`
     margin: 8rem 0 6.2rem;
   }
 
+  @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    margin: 13rem 0 6.2rem;
+  }
+
   @media (max-width: ${BREAKPOINTS.SM}) {
     height: 12rem;
     margin: 3rem 0 6.2rem;
