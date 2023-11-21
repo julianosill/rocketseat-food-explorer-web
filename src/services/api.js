@@ -7,4 +7,4 @@ export const api = axios.create({
   baseURL: `${URL}:${PORT}`,
 })
 
-export const imageBaseUrl = `${URL}:${PORT}/files`
+export const imageUrl = `${URL}:${PORT}/files`
