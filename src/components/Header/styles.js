@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { fontStyles } from '../../styles/global'
+import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Header = styled.header`
@@ -11,25 +11,27 @@ export const Header = styled.header`
 
   background-color: ${({ theme }) => theme.COLORS.DARK_600};
 
-  @media (max-width: ${BREAKPOINTS.SM}) {
-    padding: 5.6rem 0 2.4rem;
-  }
-
   > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 3.2rem;
+  }
 
-    @media (max-width: ${BREAKPOINTS.MD}) {
+  @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    > div {
+      flex-wrap: wrap;
       gap: 1.6rem;
     }
+  }
+
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    padding: 5.6rem 0 2.4rem;
   }
 `
 
 export const MenuButton = styled.button`
   display: none;
-  border-radius: 0.5rem;
 
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
   font-size: 2.4rem;
@@ -42,23 +44,48 @@ export const MenuButton = styled.button`
 export const Brand = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
-  max-width: 18rem;
+
+  @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    flex: 1;
+  }
 `
 
 export const Search = styled.div`
-  position: relative;
   flex: 1;
 
-  > input {
+  input {
     background-color: ${({ theme }) => theme.COLORS.DARK_900};
-    color: ${({ theme }) => theme.COLORS.LIGHT_400};
-    border: none;
-    border-radius: 0.5rem;
+  }
 
-    padding: 0 1.4rem 0 5rem;
+  @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    flex: auto;
+    order: 1;
     width: 100%;
-    height: 4.8rem;
+  }
+`
+
+export const TextButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3.2rem;
+
+  button {
+    ${FONT_STYLES.robotoSmallRegular}
+    color: ${({ theme }) => theme.COLORS.LIGHT_300};
+
+    &:hover {
+      color: ${({ theme }) => theme.COLORS.LIGHT_100};
+    }
+  }
+
+  @media (min-width: ${BREAKPOINTS.MIN_MD}) and (max-width: ${BREAKPOINTS.XL}) {
+    &[data-hide='true'] {
+      display: none;
+    }
+  }
+
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    gap: 1.6rem;
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
@@ -66,64 +93,46 @@ export const Search = styled.div`
   }
 `
 
-export const Label = styled.label`
-  height: 100%;
-  padding: 1.4rem;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-
-  > svg {
-    font-size: 2.4rem;
-  }
-`
-
-export const Order = styled.button`
+export const Order = styled.div`
   position: relative;
-  min-width: 21.5rem;
-  height: 4.8rem;
-  padding: 0 3.2rem;
 
-  background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
-  border-radius: 0.5rem;
-  color: ${({ theme }) => theme.COLORS.LIGHT_100};
+  button {
+    padding: 1.2rem 3.2rem;
 
-  gap: 0.8rem;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.COLORS.TOMATO_200};
+    svg {
+      font-size: 3.2rem;
+    }
   }
 
-  > svg {
-    font-size: 2.5rem;
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    button {
+      padding: 0.8rem 2.4rem;
+
+      svg {
+        font-size: 2.8rem;
+      }
+    }
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    min-width: fit-content;
-    height: fit-content;
-    padding: 0;
-    background: none;
-
-    &:hover {
+    button {
+      padding: 0;
       background: none;
-    }
 
-    > svg {
-      font-size: 3.2rem;
-    }
+      &:hover {
+        background: none;
+      }
 
-    > span {
-      display: none;
+      svg {
+        font-size: 3.2rem;
+      }
     }
   }
 `
 
 export const Badge = styled.div`
-  ${fontStyles.poppins100Medium}
+  ${FONT_STYLES.poppins100Medium}
+
   position: absolute;
   top: -0.5rem;
   right: -0.5rem;
@@ -132,8 +141,8 @@ export const Badge = styled.div`
   height: 2rem;
   border-radius: 50%;
 
-  background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
+  background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
 
   display: flex;
   align-items: center;
@@ -145,12 +154,7 @@ export const Badge = styled.div`
 `
 
 export const Logout = styled.button`
-  background: none;
-  border: none;
-  border-radius: 0.5rem;
-
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
-
   transition: color 0.2s ease;
 
   &:hover {
