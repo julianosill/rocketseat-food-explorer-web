@@ -2,59 +2,97 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { useAuth } from './auth.useAuth'
+import { api } from '../services/api'
 
 export function useProductHandler() {
-  const { addProduct, updateProduct, deleteProduct } = useAuth()
   const [loadingAdd, setLoadingAdd] = useState(false)
   const [loadingDelete, setLoadingDelete] = useState(false)
   const [loadingUpdate, setLoadingUpdate] = useState(false)
 
   const navigate = useNavigate()
 
-  async function addProductHandler(product, imageFile) {
-    setLoadingAdd(true)
+  async function addProduct(product, imageFile) {
     try {
-      await addProduct({ product, imageFile }).then(() => {
-        toast.success(`"${product.name}" foi adicionado com sucesso.`)
-      })
+      setLoadingAdd(true)
+
+      const product_id = await api
+        .post('/products', product)
+        .then(response => response.data.id)
+        .catch(error => {
+          throw new Error(error)
+        })
+
+      if (product_id && imageFile) {
+        const fileUploadForm = new FormData()
+        fileUploadForm.append('image', imageFile)
+        await api.patch(`products/image/${product_id}`, fileUploadForm)
+      }
+
+      toast.success(`"${product.name}" foi adicionado com sucesso.`)
     } catch (error) {
-      console.error(error)
+      if (error.response) {
+        console.error(error.response.data.message)
+      } else {
+        console.error(error)
+      }
+      throw new Error(error)
     } finally {
       setLoadingAdd(false)
     }
   }
 
-  async function updateProductHandler(id, product, imageFile) {
-    setLoadingUpdate(true)
+  async function updateProduct(id, product, imageFile) {
     try {
-      await updateProduct({ id, product, imageFile }).then(() => {
-        toast.success(`"${product.name}" foi atualizado com sucesso.`)
-      })
+      setLoadingUpdate(true)
+
+      if (imageFile) {
+        const fileUploadForm = new FormData()
+        fileUploadForm.append('image', imageFile)
+        await api.patch(`products/image/${id}`, fileUploadForm)
+      }
+
+      await api
+        .put(`/products/${id}`, product)
+        .then(() => {
+          toast.success(`"${product.name}" foi atualizado com sucesso.`)
+        })
+        .catch(error => {
+          throw new Error(error)
+        })
     } catch (error) {
-      console.error(error)
+      if (error.response) {
+        console.error(error.response.data.message)
+      } else {
+        console.error(error)
+      }
+      throw new Error(error)
     } finally {
       setLoadingUpdate(false)
     }
   }
 
-  async function deleteProductHandler(product) {
-    const deleteConfirm = confirm(
-      `Tem certeza que deseja remover "${product.name}"?`
-    )
-
-    if (deleteConfirm) {
+  async function deleteProduct(product) {
+    try {
       setLoadingDelete(true)
-      try {
-        await deleteProduct(product.id).then(() => {
+      const deleteConfirm = confirm(
+        `Tem certeza que deseja remover "${product.name}"?`
+      )
+
+      if (deleteConfirm) {
+        await api.delete(`/products/${product.id}`).then(() => {
           toast.success(`"${product.name}" foi removido com sucesso.`)
           navigate('/')
         })
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoadingDelete(false)
       }
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message)
+      } else {
+        console.error(error)
+      }
+      throw new Error(error)
+    } finally {
+      setLoadingDelete(false)
     }
   }
 
@@ -84,11 +122,11 @@ export function useProductHandler() {
 
   return {
     loadingAdd,
-    loadingDelete,
+    addProduct,
     loadingUpdate,
-    addProductHandler,
-    deleteProductHandler,
-    updateProductHandler,
+    updateProduct,
+    loadingDelete,
+    deleteProduct,
     validateInputsHandler,
   }
 }

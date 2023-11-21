@@ -21,11 +21,11 @@ import * as S from './styles'
 export function FormProduct({ data }) {
   const {
     loadingAdd,
-    loadingDelete,
+    addProduct,
     loadingUpdate,
-    addProductHandler,
-    updateProductHandler,
-    deleteProductHandler,
+    updateProduct,
+    loadingDelete,
+    deleteProduct,
     validateInputsHandler,
   } = useProductHandler()
 
@@ -108,9 +108,11 @@ export function FormProduct({ data }) {
       price: formatToNumber(price),
     }
 
+    console.log(newProduct.price)
+
     productData
-      ? updateProductHandler(productData.id, newProduct, imageFile)
-      : addProductHandler(newProduct, imageFile).then(() => {
+      ? updateProduct(productData.id, newProduct, imageFile)
+      : addProduct(newProduct, imageFile).then(() => {
           setImage(null)
           setImageFile(null)
           setName('')
@@ -123,7 +125,7 @@ export function FormProduct({ data }) {
 
   async function handleDeleteProduct(e) {
     e.preventDefault()
-    deleteProductHandler(productData)
+    deleteProduct(productData)
   }
 
   function handleCancel(e) {
