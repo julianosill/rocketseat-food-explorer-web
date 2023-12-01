@@ -4,18 +4,18 @@ import { FiMinus, FiPlus } from 'react-icons/fi'
 
 import * as S from './styles'
 
-export function Stepper({ inProductCard, amount, increase, decrease }) {
+export function Stepper({ inProductCard, quantity, increase, decrease }) {
   return (
     <S.Container $inproductcard={inProductCard}>
       <button
         onClick={decrease}
-        disabled={amount <= 1}
-        title="Diminuir unidades"
+        disabled={quantity <= 1}
+        title="Diminuir quantidade"
       >
         <FiMinus />
       </button>
-      <span>{amount < 10 ? `0${amount}` : amount}</span>
-      <button onClick={increase} title="Aumentar unidades">
+      <span>{quantity < 10 ? `0${quantity}` : quantity}</span>
+      <button onClick={increase} title="Aumentar quantidade">
         <FiPlus />
       </button>
     </S.Container>
@@ -24,7 +24,7 @@ export function Stepper({ inProductCard, amount, increase, decrease }) {
 
 Stepper.propTypes = {
   inProductCard: PropTypes.bool,
-  amount: PropTypes.number.isRequired,
+  quantity: PropTypes.number.isRequired,
   increase: PropTypes.func.isRequired,
   decrease: PropTypes.func.isRequired,
 }
