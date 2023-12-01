@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { PiReceipt } from 'react-icons/pi'
 
 import { useAuth } from '../../hooks/auth.useAuth'
+import { useCart } from '../../hooks/cart.useCart'
 import { imageUrl } from '../../services/api'
 import { formatToPrice } from '../../utils/formatters'
 
@@ -15,19 +16,25 @@ import * as S from './styles'
 
 export function ProductDetailsCard({ product }) {
   const { isAdmin } = useAuth()
-  const [amount, setAmount] = useState(1)
-  const totalPrice = formatToPrice(amount * product.price)
+  const { addToCart } = useCart()
+  const [quantity, setQuantity] = useState(1)
+  const totalPrice = formatToPrice(quantity * product.price)
 
   const navigate = useNavigate()
 
-  function handleIncreaseAmount() {
-    setAmount(prev => prev + 1)
+  function handleIncreaseQuantity() {
+    setQuantity(prev => prev + 1)
   }
 
-  function handleDecreaseAmount() {
-    if (amount > 1) {
-      setAmount(prev => prev - 1)
+  function handleDecreaseQuantity() {
+    if (quantity > 1) {
+      setQuantity(prev => prev - 1)
     }
+  }
+
+  function handleAddToCart() {
+    addToCart(product, quantity)
+    setQuantity(1)
   }
 
   return (
@@ -56,11 +63,11 @@ export function ProductDetailsCard({ product }) {
           {!isAdmin && (
             <>
               <Stepper
-                amount={amount}
-                increase={handleIncreaseAmount}
-                decrease={handleDecreaseAmount}
+                quantity={quantity}
+                increase={handleIncreaseQuantity}
+                decrease={handleDecreaseQuantity}
               />
-              <Button>
+              <Button onClick={handleAddToCart}>
                 <PiReceipt /> incluir ∙ {totalPrice}
               </Button>
             </>

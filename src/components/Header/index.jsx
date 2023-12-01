@@ -6,6 +6,8 @@ import { PiReceipt } from 'react-icons/pi'
 import { SlMenu } from 'react-icons/sl'
 
 import { useAuth } from '../../hooks/auth.useAuth'
+import { useCart } from '../../hooks/cart.useCart'
+
 import { useStateProvider } from '../../hooks/components.useStateProvider'
 
 import { Container } from '../Container'
@@ -16,10 +18,12 @@ import { SideMenu } from '../SideMenu'
 import * as S from './styles'
 
 export function Header() {
-  const { isAdmin, signOut, cart } = useAuth()
+  const { isAdmin, signOut } = useAuth()
+  const { cart } = useCart()
   const { setMenuIsOpen } = useStateProvider()
   const [expandedSearch, setExpandedSearch] = useState(false)
 
+  const cartItems = cart.length > 0 ? cart.length : null
   const navigate = useNavigate()
 
   return (
@@ -63,9 +67,9 @@ export function Header() {
             {!isAdmin && (
               <Button icon={PiReceipt} onClick={() => navigate('/pedido')}>
                 <span className="mobile-hide">
-                  Pedido {cart && `(${cart})`}
+                  Pedido {cartItems && `(${cartItems})`}
                 </span>
-                {cart && <S.Badge>{cart}</S.Badge>}
+                {cartItems && <S.Badge>{cartItems}</S.Badge>}
               </Button>
             )}
             {isAdmin && (
@@ -74,9 +78,9 @@ export function Header() {
                 onClick={() => navigate('/admin/pedidos')}
               >
                 <span className="mobile-hide">
-                  Pedidos {cart && `(${cart})`}
+                  Pedidos {cartItems && `(${cartItems})`}
                 </span>
-                {cart && <S.Badge>{cart}</S.Badge>}
+                {cartItems && <S.Badge>{cartItems}</S.Badge>}
               </Button>
             )}
           </S.Order>
