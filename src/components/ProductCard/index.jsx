@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../../hooks/auth.useAuth'
 import { useCart } from '../../hooks/cart.useCart'
+import { useFavorite } from '../../hooks/favorite.useFavorite'
 import { imageUrl } from '../../services/api'
 import { formatToPrice } from '../../utils/formatters'
 
@@ -20,24 +21,34 @@ import * as S from './styles'
 export function ProductCard({ product }) {
   const { isAdmin } = useAuth()
   const { addToCart } = useCart()
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorite()
   const [quantity, setQuantity] = useState(1)
 
   const totalPrice = formatToPrice(quantity * product.price)
+  const isFavorited = favorites.some(item => item.id === product.id)
   const navigate = useNavigate()
 
   function handleIncreaseQuantity() {
     setQuantity(prev => prev + 1)
+    return
   }
 
   function handleDecreaseQuantity() {
     if (quantity > 1) {
       setQuantity(prev => prev - 1)
     }
+    return
   }
 
   function handleAddToCart() {
     addToCart(product, quantity)
     setQuantity(1)
+    return
+  }
+
+  function handleFavorite() {
+    isFavorited ? removeFromFavorites(product) : addToFavorites(product)
+    return
   }
 
   return (
@@ -71,9 +82,8 @@ export function ProductCard({ product }) {
             <PiPencilSimple />
           </button>
         ) : (
-          <button>
-            <FiHeart />
-            {/* <FaHeart /> */}
+          <button onClick={handleFavorite}>
+            {isFavorited ? <FaHeart /> : <FiHeart />}
           </button>
         )}
       </S.CardAction>
