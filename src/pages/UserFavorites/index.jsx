@@ -10,7 +10,7 @@ import { PageTitle } from '../../components/PageTitle'
 import { Empty } from '../../components/Empty'
 import * as S from './styles'
 
-export function Favorites() {
+export function UserFavorites() {
   const { isLoadingFavs, favorites, removeFromFavorites } = useFavorite()
 
   return (
