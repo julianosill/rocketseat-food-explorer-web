@@ -34,7 +34,7 @@ export function FavoriteProvider({ children }) {
   async function fetchFavorites(ids) {
     setIsLoadingFavs(true)
     await api
-      .get(`/products?id=${ids}`)
+      .get(`/products?id=${ids}`, { withCredentials: true })
       .then(response => {
         setFavorites(response.data)
       })

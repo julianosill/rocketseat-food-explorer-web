@@ -21,7 +21,7 @@ export function ProductDetails() {
     async function getProduct() {
       setLoadingProduct(true)
       await api
-        .get(`/products/${id}`)
+        .get(`/products/${id}`, { withCredentials: true })
         .then(response => {
           setProduct(response.data)
           setRequestFailed(null)

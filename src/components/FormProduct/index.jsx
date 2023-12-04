@@ -136,7 +136,7 @@ export function FormProduct({ data }) {
   useEffect(() => {
     async function getCategories() {
       await api
-        .get(`/categories`)
+        .get(`/categories`, { withCredentials: true })
         .then(response => {
           setCategories(response.data.map(category => category.name))
         })

@@ -25,7 +25,7 @@ export function ProductsSearch() {
       setIsLoadingProducts(true)
       setRequestFailed(null)
       await api
-        .get(`/products?search=${searchQuery}`)
+        .get(`/products?search=${searchQuery}`, { withCredentials: true })
         .then(response => {
           setProducts({
             dishes: handleFilterByCategory('Refeições', response.data),

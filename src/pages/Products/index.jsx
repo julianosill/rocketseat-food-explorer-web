@@ -19,7 +19,7 @@ export function Products() {
       setIsLoadingProducts(true)
       setRequestFailed(null)
       await api
-        .get('/products')
+        .get('/products', { withCredentials: true })
         .then(response => {
           setProducts({
             dishes: handleFilterByCategory('Refeições', response.data),

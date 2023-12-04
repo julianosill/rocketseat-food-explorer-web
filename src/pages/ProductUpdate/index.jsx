@@ -19,7 +19,7 @@ export function ProductUpdate() {
   useEffect(() => {
     async function getProduct() {
       await api
-        .get(`/products/${id}`)
+        .get(`/products/${id}`, { withCredentials: true })
         .then(response => {
           setProduct(response.data)
         })

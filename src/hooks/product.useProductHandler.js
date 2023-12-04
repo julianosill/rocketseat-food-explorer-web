@@ -16,7 +16,7 @@ export function useProductHandler() {
       setLoadingAdd(true)
 
       const product_id = await api
-        .post('/products', product)
+        .post('/products', product, { withCredentials: true })
         .then(response => response.data.id)
         .catch(error => {
           throw new Error(error)
@@ -25,7 +25,9 @@ export function useProductHandler() {
       if (product_id && imageFile) {
         const fileUploadForm = new FormData()
         fileUploadForm.append('image', imageFile)
-        await api.patch(`products/image/${product_id}`, fileUploadForm)
+        await api.patch(`products/image/${product_id}`, fileUploadForm, {
+          withCredentials: true,
+        })
       }
 
       toast.success(`"${product.name}" foi adicionado com sucesso.`)
@@ -48,11 +50,13 @@ export function useProductHandler() {
       if (imageFile) {
         const fileUploadForm = new FormData()
         fileUploadForm.append('image', imageFile)
-        await api.patch(`products/image/${id}`, fileUploadForm)
+        await api.patch(`products/image/${id}`, fileUploadForm, {
+          withCredentials: true,
+        })
       }
 
       await api
-        .put(`/products/${id}`, product)
+        .put(`/products/${id}`, product, { withCredentials: true })
         .then(() => {
           toast.success(`"${product.name}" foi atualizado com sucesso.`)
         })
@@ -79,10 +83,12 @@ export function useProductHandler() {
       )
 
       if (deleteConfirm) {
-        await api.delete(`/products/${product.id}`).then(() => {
-          toast.success(`"${product.name}" foi removido com sucesso.`)
-          navigate('/')
-        })
+        await api
+          .delete(`/products/${product.id}`, { withCredentials: true })
+          .then(() => {
+            toast.success(`"${product.name}" foi removido com sucesso.`)
+            navigate('/')
+          })
       }
     } catch (error) {
       if (error.response) {
