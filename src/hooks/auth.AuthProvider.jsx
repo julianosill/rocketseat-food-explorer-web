@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const [formError, setFormError] = useState(null)
 
   const [userData, setUserData] = useState(null)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const isAdmin = userData?.role === 'admin'
 
   async function signIn({ email, password }) {
     setFormError(null)
@@ -28,14 +28,15 @@ export function AuthProvider({ children }) {
 
     try {
       setLoadingAuth(true)
-      const response = await api.post('/sessions', { email, password })
-      const { user, token } = response.data
+      const response = await api.post(
+        '/sessions',
+        { email, password },
+        { withCredentials: true }
+      )
 
+      const user = response.data
       setUserData(user)
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
       localStorage.setItem('@foodexplorer:user', JSON.stringify(user))
-      localStorage.setItem('@foodexplorer:token', token)
     } catch (error) {
       console.log(error)
 
@@ -52,22 +53,25 @@ export function AuthProvider({ children }) {
 
   function signOut() {
     localStorage.removeItem('@foodexplorer:user')
-    localStorage.removeItem('@foodexplorer:token')
     setUserData(null)
   }
 
   useEffect(() => {
-    const user = localStorage.getItem('@foodexplorer:user')
-    const token = localStorage.getItem('@foodexplorer:token')
-    if (user && token) {
-      setUserData(JSON.parse(user))
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    }
-  }, [])
+    const userStorage = localStorage.getItem('@foodexplorer:user')
 
-  useEffect(() => {
-    userData?.role === 'admin' ? setIsAdmin(true) : setIsAdmin(false)
-  }, [userData])
+    async function validateUser() {
+      const response = await api
+        .get('users/validate', { withCredentials: true })
+        .catch(error => error.response?.status === 401 && signOut())
+
+      const { user } = response.data
+
+      setUserData(user)
+      localStorage.setItem('@foodexplorer:user', JSON.stringify(user))
+    }
+
+    userStorage && validateUser()
+  }, [])
 
   return (
     <AuthContext.Provider
