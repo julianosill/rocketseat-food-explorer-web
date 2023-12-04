@@ -4,6 +4,7 @@ export const BREAKPOINTS = {
   MD: '1024px',
   LG: '1280px',
   XL: '1440px',
+  MIN_XS: '426px',
   MIN_SM: '769px',
   MIN_MD: '1025px',
   MIN_LG: '1281px',
