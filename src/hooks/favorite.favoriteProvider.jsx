@@ -10,7 +10,14 @@ export function FavoriteProvider({ children }) {
   const [favorites, setFavorites] = useState([])
 
   function addToFavorites(product) {
-    const updatedFavorites = [...favorites, product]
+    const { id, name, image } = product
+
+    const hasProduct = favorites.find(item => item.id === id)
+    if (hasProduct) {
+      return console.error('O produto já está salvo como favorito.')
+    }
+
+    const updatedFavorites = [...favorites, { id, name, image }]
     setFavorites(updatedFavorites)
     return updateStorageFavorites(updatedFavorites)
   }
