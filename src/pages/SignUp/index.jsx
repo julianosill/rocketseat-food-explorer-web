@@ -1,51 +1,112 @@
-import logo from '../../assets/logo.svg'
+import { useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+
+import { useAuth } from '../../hooks/auth.useAuth'
+
+import { Container } from '../../components/Container'
+import { Logo } from '../../components/Logo'
+import { FormCard } from '../../components/FormCard'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { ButtonText } from '../../components/ButtonText'
 import * as S from './styles'
 
 export function SignUp() {
+  const { signUp, signIn } = useAuth()
+  const navigate = useNavigate()
+
+  const [loadingAuth, setLoadingAuth] = useState(false)
+  const [formError, setFormError] = useState(null)
+
+  const nameRef = useRef(null)
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+
+    setLoadingAuth(true)
+    setFormError(null)
+
+    await signUp({
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    })
+      .then(() => {
+        toast.success(
+          `Usuário "${nameRef.current.value}" cadastrado com sucesso.`
+        )
+        signIn({
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        })
+      })
+      .catch(error => {
+        console.error(error)
+        setFormError(error)
+        error.email && emailRef.current.focus()
+        error.password && passwordRef.current.focus()
+      })
+      .finally(() => setLoadingAuth(false))
+  }
+
   return (
-    <S.Container>
+    <Container>
       <S.Main>
-        <S.Logo>
-          <img src={logo} alt="Food Explorer" />
-        </S.Logo>
-        <S.Card>
-          <S.Title>Crie sua conta</S.Title>
-          <S.Form>
-            <div>
-              <S.Label htmlFor="name">Seu nome</S.Label>
+        <Link to="/">
+          <Logo auth />
+        </Link>
+
+        <FormCard.Root>
+          <FormCard.Title text="Crie sua conta" />
+          <FormCard.Form>
+            <FormCard.Item error={formError?.name}>
               <Input
-                type="text"
+                ref={nameRef}
                 id="name"
+                type="text"
+                label="Seu nome"
                 placeholder="Exemplo: Maria da Silva"
+                error={formError?.name}
               />
-            </div>
-            <div>
-              <S.Label htmlFor="email">Email</S.Label>
+            </FormCard.Item>
+            <FormCard.Item error={formError?.email}>
               <Input
-                type="email"
+                ref={emailRef}
                 id="email"
+                type="email"
+                label="Email"
                 placeholder="Exemplo: exemplo@exemplo.com.br"
+                error={formError?.email}
               />
-            </div>
-            <div>
-              <S.Label htmlFor="password">Senha</S.Label>
+            </FormCard.Item>
+            <FormCard.Item error={formError?.password}>
               <Input
-                type="password"
+                ref={passwordRef}
                 id="password"
+                type="password"
+                label="Senha"
                 placeholder="No mínimo 6 caracteres"
+                error={formError?.password}
               />
-            </div>
-            <Button $width="100%" type="submit">
-              Criar conta
-            </Button>
-          </S.Form>
-          <ButtonText>Já tenho uma conta</ButtonText>
-        </S.Card>
+            </FormCard.Item>
+            <Button
+              type="submit"
+              icon={loadingAuth ? AiOutlineLoading3Quarters : null}
+              text={loadingAuth ? 'Registrando...' : 'Criar conta'}
+              disabled={loadingAuth}
+              loading={loadingAuth}
+              onClick={handleSubmit}
+            />
+          </FormCard.Form>
+          {formError?.apiError && <FormCard.Error text={formError.apiError} />}
+          <ButtonText text="Já tenho uma conta" onClick={() => navigate('/')} />
+        </FormCard.Root>
       </S.Main>
-    </S.Container>
+    </Container>
   )
 }
