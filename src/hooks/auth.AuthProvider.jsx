@@ -3,57 +3,75 @@ import PropTypes from 'prop-types'
 import { createContext, useEffect, useState } from 'react'
 
 import { api } from '../services/api'
+import { handleFailedMessage } from '../utils/handlers'
 
 export const AuthContext = createContext({})
 
 export function AuthProvider({ children }) {
-  const [loadingAuth, setLoadingAuth] = useState(false)
-  const [inputError, setInputError] = useState(null)
-  const [formError, setFormError] = useState(null)
-
   const [userData, setUserData] = useState(null)
   const isAdmin = userData?.role === 'admin'
 
-  async function signIn({ email, password }) {
-    setFormError(null)
-    setInputError(null)
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  const isValidEmail = email => emailRegex.test(email)
+
+  async function signUp({ name, email, password }) {
+    if (!name) {
+      throw { name: 'Insira seu nome' }
+    }
 
     if (!email) {
-      return setInputError({ email: 'Insira seu e-mail.' })
+      throw { email: 'Insira seu e-mail' }
+    }
+
+    if (!isValidEmail(email)) {
+      throw { email: 'Insira um e-mail válido' }
     }
 
     if (password.length < 6) {
-      return setInputError({ password: 'Senha informada é muito curta.' })
+      throw { password: 'A senha deve ter 6 ou mais caracteres' }
     }
 
     try {
-      setLoadingAuth(true)
+      await api.post('/users', { name, email, password })
+    } catch (error) {
+      console.error(error)
+      const apiError = handleFailedMessage('auth', error.response.data.message)
+      throw { apiError }
+    }
+  }
+
+  async function signIn({ email, password }) {
+    if (!email) {
+      throw { email: 'Insira seu e-mail' }
+    }
+
+    if (!isValidEmail(email)) {
+      throw { email: 'Insira um e-mail válido' }
+    }
+
+    if (password.length < 6) {
+      throw { password: 'Senha informada é muito curta' }
+    }
+
+    try {
       const response = await api.post(
         '/sessions',
         { email, password },
         { withCredentials: true }
       )
-
-      const user = response.data
+      const { user } = response.data
       setUserData(user)
       localStorage.setItem('@foodexplorer:user', JSON.stringify(user))
     } catch (error) {
-      console.log(error)
-
-      const loginFailedMessage = error.response.data.message
-      setFormError(
-        loginFailedMessage
-          ? loginFailedMessage
-          : 'Algo deu errado. Por favor, entre em contato nossa equipe de suporte.'
-      )
-    } finally {
-      setLoadingAuth(false)
+      console.error(error)
+      const apiError = handleFailedMessage('auth', error.response.data.message)
+      throw { apiError }
     }
   }
 
   function signOut() {
-    localStorage.removeItem('@foodexplorer:user')
     setUserData(null)
+    localStorage.removeItem('@foodexplorer:user')
   }
 
   useEffect(() => {
@@ -78,11 +96,9 @@ export function AuthProvider({ children }) {
       value={{
         userData,
         isAdmin,
+        signUp,
         signIn,
         signOut,
-        loadingAuth,
-        inputError,
-        formError,
       }}
     >
       {children}
