@@ -6,7 +6,7 @@ import { HiOutlineChevronLeft } from 'react-icons/hi'
 
 import { Loading } from '../../components/Loading'
 import { LoadingFailed } from '../../components/LoadingFailed'
-import { ProductDetailsCard } from '../../components/ProductDetailsCard'
+import { ProductInfo } from '../../components/ProductInfo'
 import * as S from './styles'
 
 export function ProductDetails() {
@@ -48,7 +48,7 @@ export function ProductDetails() {
         <Loading text="Carregando deliciosas informações..." />
       )}
       {requestFailed && <LoadingFailed message={requestFailed} />}
-      {product && <ProductDetailsCard product={product} />}
+      {product && <ProductInfo product={product} />}
     </S.Container>
   )
 }

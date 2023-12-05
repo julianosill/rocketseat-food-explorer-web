@@ -14,7 +14,7 @@ import { Stepper } from '../../components/Stepper'
 import { Button } from '../../components/Button'
 import * as S from './styles'
 
-export function ProductDetailsCard({ product }) {
+export function ProductInfo({ product }) {
   const { isAdmin } = useAuth()
   const { addToCart } = useCart()
   const [quantity, setQuantity] = useState(1)
@@ -78,6 +78,6 @@ export function ProductDetailsCard({ product }) {
   )
 }
 
-ProductDetailsCard.propTypes = {
+ProductInfo.propTypes = {
   product: PropTypes.object.isRequired,
 }
