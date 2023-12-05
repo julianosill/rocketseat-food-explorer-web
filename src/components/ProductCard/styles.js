@@ -25,8 +25,6 @@ export const Container = styled.div`
   transition: box-shadow 0.2s ease;
 
   &:hover {
-    box-shadow: inset 0 0 4rem ${({ theme }) => theme.COLORS.CAKE_100};
-
     img {
       transform: scale(1.025);
     }
@@ -85,8 +83,6 @@ export const Price = styled.div`
 export const Actions = styled.section`
   width: 100%;
 
-  margin-top: 1.5rem;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,20 +102,22 @@ export const CardAction = styled.div`
   position: absolute;
   top: 1rem;
   right: 1rem;
+`
+
+export const CardButton = styled.button`
+  padding: 0.6rem;
+
+  color: ${({ theme, $favorited }) =>
+    $favorited ? theme.COLORS.TOMATO_100 : theme.COLORS.LIGHT_300};
 
   transition: all 0.2s ease;
 
   &:hover {
-    opacity: 0.5;
+    opacity: 0.75;
+    transform: scale(1.1);
   }
 
-  > button {
-    padding: 0.6rem;
-
-    color: ${({ theme }) => theme.COLORS.LIGHT_300};
-
-    > svg {
-      font-size: 2.4rem;
-    }
+  svg {
+    font-size: 2.4rem;
   }
 `

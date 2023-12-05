@@ -48,7 +48,6 @@ export function ProductCard({ product }) {
 
   function handleFavorite() {
     isFavorited ? removeFromFavorites(product) : addToFavorites(product)
-    return
   }
 
   return (
@@ -74,18 +73,22 @@ export function ProductCard({ product }) {
       )}
 
       <S.CardAction>
-        {isAdmin ? (
-          <button
-            onClick={() => navigate(`/admin/produto/${product.id}`)}
-            title="Editar produto"
-          >
+        <S.CardButton
+          onClick={() =>
+            isAdmin
+              ? navigate(`/admin/produto/${product.id}`)
+              : handleFavorite()
+          }
+          $favorited={!isAdmin && isFavorited}
+        >
+          {isAdmin ? (
             <PiPencilSimple />
-          </button>
-        ) : (
-          <button onClick={handleFavorite}>
-            {isFavorited ? <FaHeart /> : <FiHeart />}
-          </button>
-        )}
+          ) : isFavorited ? (
+            <FaHeart />
+          ) : (
+            <FiHeart />
+          )}
+        </S.CardButton>
       </S.CardAction>
     </S.Container>
   )
