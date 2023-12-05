@@ -50,22 +50,24 @@ export function Header() {
             />
           </S.Search>
           <S.TextButtons data-hide={expandedSearch}>
-            <button onClick={() => navigate('/favoritos')}>
-              Meus favoritos
-            </button>
             {isAdmin ? (
               <button onClick={() => navigate('/admin/adicionar')}>
                 Novo produto
               </button>
             ) : (
-              <button onClick={() => navigate('/historico')}>
-                Histórico de pedidos
-              </button>
+              <>
+                <button onClick={() => navigate('/favoritos')}>
+                  Meus favoritos
+                </button>
+                <button onClick={() => navigate('/historico')}>
+                  Histórico de pedidos
+                </button>
+              </>
             )}
           </S.TextButtons>
           <S.Order>
             {!isAdmin && (
-              <Button icon={PiReceipt} onClick={() => navigate('/pedido')}>
+              <Button icon={PiReceipt} onClick={() => navigate('/meupedido')}>
                 <span className="mobile-hide">
                   Pedido {cartItems && `(${cartItems})`}
                 </span>
@@ -84,7 +86,13 @@ export function Header() {
               </Button>
             )}
           </S.Order>
-          <S.Logout onClick={signOut}>
+          <S.Logout
+            title="Sair da conta"
+            onClick={() => {
+              signOut()
+              navigate('/')
+            }}
+          >
             <FiLogOut />
           </S.Logout>
         </Container>
