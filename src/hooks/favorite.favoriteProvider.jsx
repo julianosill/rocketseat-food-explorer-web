@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types'
 
 import { createContext, useEffect, useState } from 'react'
+
+import { useAuth } from '../hooks/auth.useAuth'
 import { api } from '../services/api'
 
 export const FavoriteContext = createContext({})
 
 export function FavoriteProvider({ children }) {
+  const { userData } = useAuth()
   const [isLoadingFavs, setIsLoadingFavs] = useState(false)
   const [favorites, setFavorites] = useState([])
 
@@ -54,8 +57,8 @@ export function FavoriteProvider({ children }) {
       localStorage.getItem('@foodexplorer:favorites')
     )
     const productsId = storageFavorites?.map(product => product.id)
-    productsId?.length && fetchFavorites(productsId)
-  }, [])
+    userData && productsId?.length && fetchFavorites(productsId)
+  }, [userData])
 
   return (
     <FavoriteContext.Provider
