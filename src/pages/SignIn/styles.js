@@ -23,5 +23,10 @@ export const Main = styled.main`
     padding: 15rem 0;
     justify-content: start;
     align-items: start;
+
+    input {
+      background-color: ${({ theme }) => theme.COLORS.DARK_900};
+      border-color: transparent;
+    }
   }
 `

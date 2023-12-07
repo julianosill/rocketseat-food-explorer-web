@@ -12,6 +12,10 @@ export const Main = styled.main`
   justify-content: space-between;
   gap: 5rem;
 
+  input {
+    background-color: ${({ theme }) => theme.COLORS.DARK_900};
+  }
+
   @media (max-width: ${BREAKPOINTS.MD}) {
     max-width: 58rem;
     margin: 0 auto;

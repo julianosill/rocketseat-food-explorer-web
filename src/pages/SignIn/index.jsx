@@ -49,27 +49,30 @@ export function SignIn() {
 
         <FormCard.Root>
           <FormCard.Title text="Faça login" />
-          <FormCard.Form login>
-            <FormCard.Item error={formError?.email}>
-              <Input
+          <FormCard.Form>
+            <Input.Root>
+              <Input.Label text="Email" htmlFor="email" />
+              <Input.Content
                 ref={emailRef}
+                variant="outline"
                 id="email"
                 type="email"
-                label="Email"
                 placeholder="Exemplo: exemplo@exemplo.com.br"
                 error={formError?.email}
               />
-            </FormCard.Item>
-            <FormCard.Item error={formError?.password}>
-              <Input
+            </Input.Root>
+
+            <Input.Root>
+              <Input.Label text="Senha" htmlFor="password" />
+              <Input.Content
                 ref={passwordRef}
+                variant="outline"
                 id="password"
                 type="password"
-                label="Senha"
                 placeholder="No mínimo 6 caracteres"
                 error={formError?.password}
               />
-            </FormCard.Item>
+            </Input.Root>
             <Button
               type="submit"
               icon={loadingAuth ? AiOutlineLoading3Quarters : null}
