@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 
 import * as S from './styles'
 
-export function Logo({ admin, header, footer }) {
+export function Logo({ admin, place }) {
   return (
-    <S.Container $header={header} $footer={footer}>
+    <S.Container $place={place}>
       <svg
         width="26"
         height="30"
@@ -18,13 +18,12 @@ export function Logo({ admin, header, footer }) {
         />
       </svg>
       <div>food explorer</div>
-      {admin && <span>admin</span>}
+      {admin && <S.Admin>admin</S.Admin>}
     </S.Container>
   )
 }
 
 Logo.propTypes = {
   admin: PropTypes.bool,
-  header: PropTypes.bool,
-  footer: PropTypes.bool,
+  place: PropTypes.oneOf(['header', 'footer', 'auth-page']),
 }

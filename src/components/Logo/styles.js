@@ -5,51 +5,88 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 export const Container = styled.div`
   position: relative;
 
-  color: ${({ theme, $footer }) =>
-    $footer ? theme.COLORS.LIGHT_700 : theme.COLORS.CAKE_100};
-
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: ${({ $place }) => {
+    if ($place === 'auth-page') return '2rem'
+    return '1rem'
+  }};
 
   svg {
-    width: 2.6rem;
-    height: auto;
+    width: auto;
+    height: ${({ $place }) => {
+      if ($place === 'auth-page') return '4.7rem'
+      return '3rem'
+    }};
+
+    color: ${({ theme, $place }) => {
+      if ($place === 'footer') return theme.COLORS.LIGHT_700
+      return theme.COLORS.CAKE_100
+    }};
   }
 
   div {
-    ${FONT_STYLES.robotoBiggerBold}
+    ${({ $place }) => {
+      if ($place === 'auth-page') return FONT_STYLES.robotoGiantBold
+      return FONT_STYLES.robotoBiggerBold
+    }};
 
-    color: ${({ theme, $footer }) =>
-      $footer ? theme.COLORS.LIGHT_700 : theme.COLORS.LIGHT_100};
-  }
-
-  span {
-    ${FONT_STYLES.robotoSmallestRegular}
-
-    position: absolute;
-    right: 0;
-    bottom: -1.2rem;
-
-    color: ${({ theme }) => theme.COLORS.CAKE_200};
+    color: ${({ theme, $place }) => {
+      if ($place === 'footer') return theme.COLORS.LIGHT_700
+      return theme.COLORS.LIGHT_100
+    }};
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    gap: ${({ $header }) => ($header ? '0.8rem' : '0.6rem')};
+    gap: ${({ $place }) => {
+      if ($place === 'auth-page') return '1.2rem'
+      if ($place === 'header') return '0.8rem'
+      return '0.6rem'
+    }};
 
     svg {
-      width: ${({ $header }) => ($header ? '2.4rem' : '1.8rem')};
+      height: ${({ $place }) => {
+        if ($place === 'auth-page') return '4.3rem'
+        if ($place === 'header') return '2.4rem'
+        return '1.8rem'
+      }};
     }
 
     div {
-      font-size: ${({ $header }) => ($header ? '2.1rem' : '1.5rem')};
+      font-size: ${({ $place }) => {
+        if ($place === 'auth-page') return '3.7rem'
+        if ($place === 'header') return '2.1rem'
+        return '1.5rem'
+      }};
     }
   }
 
-  @media (min-width: ${BREAKPOINTS.MIN_XS}) and (max-width: ${BREAKPOINTS.SM}) {
-    span {
-      position: ${({ $header }) => ($header ? 'relative' : null)};
-      bottom: ${({ $header }) => ($header ? '-0.1rem' : null)};
+  @media (max-width: ${BREAKPOINTS.XS}) {
+    svg {
+      height: ${({ $place }) => $place === 'auth-page' && '3rem'};
     }
+    div {
+      font-size: ${({ $place }) => $place === 'auth-page' && '2.8rem'};
+    }
+  }
+`
+
+export const Admin = styled.span`
+  ${FONT_STYLES.robotoSmallestRegular}
+
+  position: absolute;
+  right: 0;
+  bottom: -1.3rem;
+
+  color: ${({ theme }) => theme.COLORS.CAKE_200};
+
+  @media (min-width: ${BREAKPOINTS.MIN_XS}) and (max-width: ${BREAKPOINTS.SM}) {
+    position: relative;
+    bottom: -0.1rem;
+  }
+
+  @media (max-width: ${BREAKPOINTS.XS}) {
+    bottom: -1.4rem;
+    font-size: 1.1rem;
   }
 `
