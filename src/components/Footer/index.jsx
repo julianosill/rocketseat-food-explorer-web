@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <S.Footer>
       <Container>
-        <Logo footer />
+        <Logo place="footer" />
         <S.Copyright>© 2023 - Todos os direitos reservados</S.Copyright>
       </Container>
     </S.Footer>
