@@ -7,8 +7,10 @@ export const Container = styled.button`
   padding: 1.2rem 2.4rem;
 
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
-  background-color: ${({ theme, $variant }) =>
-    $variant === 'secondary' ? theme.COLORS.DARK_800 : theme.COLORS.TOMATO_100};
+  background-color: ${({ theme, $variant }) => {
+    if ($variant === 'secondary') return theme.COLORS.DARK_800
+    return theme.COLORS.TOMATO_100
+  }};
   border: none;
   border-radius: 0.5rem;
 
@@ -20,12 +22,18 @@ export const Container = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${({ theme }) => theme.COLORS.TOMATO_200};
+    background-color: ${({ theme, $variant }) => {
+      if ($variant === 'secondary') return theme.COLORS.DARK_1000
+      return theme.COLORS.TOMATO_200
+    }};
   }
 
   &:disabled,
   &:disabled:hover {
-    background-color: ${({ theme }) => theme.COLORS.TOMATO_400};
+    background-color: ${({ theme, $variant }) => {
+      if ($variant === 'secondary') return theme.COLORS.DARK_800
+      return theme.COLORS.TOMATO_400
+    }};
   }
 
   > svg {

@@ -8,13 +8,13 @@ export function Button({
   variant,
   loading,
   children,
-  ...rest
+  ...props
 }) {
   return (
-    <S.Container $variant={variant} $loading={loading} {...rest}>
+    <S.Container $variant={variant} $loading={loading} {...props}>
       {Icon && <Icon />}
       {text}
-      {children && children}
+      {children}
     </S.Container>
   )
 }
@@ -22,7 +22,7 @@ export function Button({
 Button.propTypes = {
   icon: PropTypes.func,
   text: PropTypes.string,
-  variant: PropTypes.string,
+  variant: PropTypes.oneOf(['secondary']),
   loading: PropTypes.bool,
   children: PropTypes.node,
 }
