@@ -3,9 +3,8 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Main = styled.main`
   width: 100%;
-  max-width: ${BREAKPOINTS.XL};
-  min-height: 100svh;
   min-height: 100vh;
+  min-height: 100svh;
 
   display: flex;
   align-items: center;
@@ -20,7 +19,7 @@ export const Main = styled.main`
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    padding: 15rem 0;
+    padding: 16rem 0 5.6rem;
     justify-content: start;
     align-items: start;
 

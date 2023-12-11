@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import { useAuth } from '../../hooks/auth.useAuth'
@@ -18,7 +17,7 @@ export function SignIn() {
   const navigate = useNavigate()
 
   const [loadingAuth, setLoadingAuth] = useState(false)
-  const [formError, setFormError] = useState(null)
+  const [error, setError] = useState(null)
 
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -27,7 +26,7 @@ export function SignIn() {
     e.preventDefault()
 
     setLoadingAuth(true)
-    setFormError(null)
+    setError(null)
 
     await signIn({
       email: emailRef.current.value,
@@ -35,7 +34,7 @@ export function SignIn() {
     })
       .catch(error => {
         console.error(error)
-        setFormError(error)
+        setError(error)
         error.email && emailRef.current.focus()
         error.password && passwordRef.current.focus()
       })
@@ -45,11 +44,11 @@ export function SignIn() {
   return (
     <Container>
       <S.Main>
-        <Logo auth />
+        <Logo place="auth-page" />
 
         <FormCard.Root>
           <FormCard.Title text="Faça login" />
-          <FormCard.Form>
+          <FormCard.Form onSubmit={handleSubmit}>
             <Input.Root>
               <Input.Label text="Email" htmlFor="email" />
               <Input.Content
@@ -58,7 +57,7 @@ export function SignIn() {
                 id="email"
                 type="email"
                 placeholder="Exemplo: exemplo@exemplo.com.br"
-                error={formError?.email}
+                error={error?.email}
               />
             </Input.Root>
 
@@ -70,7 +69,7 @@ export function SignIn() {
                 id="password"
                 type="password"
                 placeholder="No mínimo 6 caracteres"
-                error={formError?.password}
+                error={error?.password}
               />
             </Input.Root>
             <Button
@@ -79,10 +78,9 @@ export function SignIn() {
               text={loadingAuth ? 'Autenticando...' : 'Entrar'}
               disabled={loadingAuth}
               loading={loadingAuth}
-              onClick={handleSubmit}
             />
           </FormCard.Form>
-          {formError?.apiError && <FormCard.Error text={formError.apiError} />}
+          {error?.apiError && <FormCard.Error text={error.apiError} />}
           <ButtonText
             text="Criar uma conta"
             onClick={() => navigate('/registrar')}
