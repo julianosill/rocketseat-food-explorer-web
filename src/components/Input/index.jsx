@@ -1,32 +1,23 @@
-import PropTypes from 'prop-types'
+import { InputRoot } from './InputRoot'
+import { InputLabel } from './InputLabel'
+import { InputUpload } from './InputUpload'
+import { InputContent } from './InputContent'
+import { InputPrice } from './InputPrice'
+import { InputTextarea } from './InputTextarea'
+import { InputSelect } from './InputSelect'
+import { InputTags } from './InputTags'
+import { InputButton } from './InputButton'
+import { InputError } from './InputError'
 
-import { Label } from '../Label'
-import * as S from './styles'
-
-export function Input({ label, labelSrOnly, icon: Icon, ...props }) {
-  return (
-    <>
-      {labelSrOnly && (
-        <label htmlFor={props.id} className="sr-only">
-          {labelSrOnly}
-        </label>
-      )}
-      {label && <Label htmlFor={props.id}>{label}</Label>}
-      <S.Container>
-        {Icon && (
-          <S.Icon htmlFor={props.id}>
-            <Icon />
-          </S.Icon>
-        )}
-        <S.Input $hasIcon={Icon} {...props} />
-      </S.Container>
-    </>
-  )
-}
-
-Input.propTypes = {
-  label: PropTypes.string,
-  labelSrOnly: PropTypes.string,
-  icon: PropTypes.func,
-  id: PropTypes.string,
+export const Input = {
+  Root: InputRoot,
+  Label: InputLabel,
+  Upload: InputUpload,
+  Content: InputContent,
+  Price: InputPrice,
+  Textarea: InputTextarea,
+  Select: InputSelect,
+  Tags: InputTags,
+  Button: InputButton,
+  Error: InputError,
 }
