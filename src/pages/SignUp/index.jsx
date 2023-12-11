@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import { useAuth } from '../../hooks/auth.useAuth'
@@ -19,7 +18,7 @@ export function SignUp() {
   const navigate = useNavigate()
 
   const [loadingAuth, setLoadingAuth] = useState(false)
-  const [formError, setFormError] = useState(null)
+  const [error, setError] = useState(null)
 
   const nameRef = useRef(null)
   const emailRef = useRef(null)
@@ -29,7 +28,7 @@ export function SignUp() {
     e.preventDefault()
 
     setLoadingAuth(true)
-    setFormError(null)
+    setError(null)
 
     await signUp({
       name: nameRef.current.value,
@@ -46,8 +45,7 @@ export function SignUp() {
         })
       })
       .catch(error => {
-        console.error(error)
-        setFormError(error)
+        setError(error)
         error.email && emailRef.current.focus()
         error.password && passwordRef.current.focus()
       })
@@ -58,12 +56,12 @@ export function SignUp() {
     <Container>
       <S.Main>
         <Link to="/">
-          <Logo auth />
+          <Logo place="auth-page" />
         </Link>
 
         <FormCard.Root>
           <FormCard.Title text="Crie sua conta" />
-          <FormCard.Form>
+          <FormCard.Form onSubmit={handleSubmit}>
             <Input.Root>
               <Input.Label text="Seu nome" htmlFor="name" />
               <Input.Content
@@ -71,10 +69,9 @@ export function SignUp() {
                 id="name"
                 type="text"
                 placeholder="Exemplo: Maria da Silva"
-                error={formError?.name}
+                error={error?.name}
               />
             </Input.Root>
-
             <Input.Root>
               <Input.Label text="Email" htmlFor="email" />
               <Input.Content
@@ -82,7 +79,7 @@ export function SignUp() {
                 id="email"
                 type="email"
                 placeholder="Exemplo: exemplo@exemplo.com.br"
-                error={formError?.email}
+                error={error?.email}
               />
             </Input.Root>
 
@@ -93,20 +90,18 @@ export function SignUp() {
                 id="password"
                 type="password"
                 placeholder="No mínimo 6 caracteres"
-                error={formError?.password}
+                error={error?.password}
               />
             </Input.Root>
-
             <Button
               type="submit"
               icon={loadingAuth ? AiOutlineLoading3Quarters : null}
               text={loadingAuth ? 'Registrando...' : 'Criar conta'}
               disabled={loadingAuth}
               loading={loadingAuth}
-              onClick={handleSubmit}
             />
           </FormCard.Form>
-          {formError?.apiError && <FormCard.Error text={formError.apiError} />}
+          {error?.apiError && <FormCard.Error text={error.apiError} />}
           <ButtonText text="Já tenho uma conta" onClick={() => navigate('/')} />
         </FormCard.Root>
       </S.Main>
