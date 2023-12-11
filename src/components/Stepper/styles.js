@@ -4,6 +4,7 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Container = styled.div`
   ${FONT_STYLES.robotoBigBold}
+
   color: ${({ theme }) => theme.COLORS.LIGHT_300};
 
   display: flex;
@@ -28,11 +29,9 @@ export const Container = styled.div`
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     ${({ $inproductcard }) =>
-      $inproductcard === true
-        ? FONT_STYLES.robotoSmallRegular
-        : 'font-size: 2.2rem;'};
+      $inproductcard ? FONT_STYLES.robotoSmallRegular : 'font-size: 2.2rem;'};
 
-    > button {
+    button {
       svg {
         font-size: 2.6rem;
       }

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { FiMinus, FiPlus } from 'react-icons/fi'
 
 import * as S from './styles'
