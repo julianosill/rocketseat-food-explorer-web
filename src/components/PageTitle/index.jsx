@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 
 import * as S from './styles'
 
-export function PageTitle({ text }) {
-  return <S.Container>{text}</S.Container>
+export function PageTitle({ children }) {
+  return <S.Container>{children}</S.Container>
 }
 
 PageTitle.propTypes = {
-  text: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 }
