@@ -10,7 +10,6 @@ export const Container = styled.div`
   gap: 4.8rem;
 
   > img {
-    border-radius: 100%;
     width: 100%;
     max-width: 40rem;
     height: auto;
@@ -35,47 +34,23 @@ export const Details = styled.section`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
+`
 
-  > h1 {
-    ${FONT_STYLES.poppins500Medium}
-    color: ${({ theme }) => theme.COLORS.LIGHT_300};
-  }
-
-  > p {
-    ${FONT_STYLES.poppins300Regular}
-    color: ${({ theme }) => theme.COLORS.LIGHT_300};
-  }
+export const Title = styled.h2`
+  ${FONT_STYLES.poppins500Medium}
+  color: ${({ theme }) => theme.COLORS.LIGHT_300};
 
   @media (max-width: ${BREAKPOINTS.MD}) {
-    > h1 {
-      font-size: 2.8rem;
-    }
-    > p {
-      font-size: 1.6rem;
-    }
+    font-size: 2.8rem;
   }
 `
 
-export const Tags = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.2rem;
+export const Description = styled.p`
+  ${FONT_STYLES.poppins300Regular}
+  color: ${({ theme }) => theme.COLORS.LIGHT_300};
 
-  button {
-    ${FONT_STYLES.poppins100Medium}
-    padding: 0.4rem 0.8rem;
-    background-color: ${({ theme }) => theme.COLORS.DARK_1000};
-    color: ${({ theme }) => theme.COLORS.LIGHT_100};
-    border-radius: 0.5rem;
-
-    &:hover {
-      filter: brightness(0.85);
-    }
-  }
-
-  @media (max-width: ${BREAKPOINTS.SM}) {
-    justify-content: center;
-    gap: 2.4rem;
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    font-size: 1.6rem;
   }
 `
 
@@ -92,7 +67,7 @@ export const Actions = styled.section`
     }
   }
 
-  @media (max-width: ${BREAKPOINTS.MD}) {
+  @media (max-width: ${BREAKPOINTS.SM}) {
     gap: 1.6rem;
 
     > button {
@@ -107,5 +82,28 @@ export const Actions = styled.section`
 
   @media (max-width: ${BREAKPOINTS.XS}) {
     flex-direction: column;
+  }
+`
+
+export const Tags = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+
+  button {
+    ${FONT_STYLES.poppins100Medium}
+    padding: 0.4rem 0.8rem;
+    color: ${({ theme }) => theme.COLORS.LIGHT_100};
+    background-color: ${({ theme }) => theme.COLORS.DARK_1000};
+    border-radius: 0.5rem;
+
+    &:hover {
+      filter: brightness(0.85);
+    }
+  }
+
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    justify-content: center;
+    gap: 2.4rem;
   }
 `
