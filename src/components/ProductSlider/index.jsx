@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types'
-
 import { useRef, useEffect } from 'react'
 import { register } from 'swiper/element/bundle'
 
-import { ProductCard } from '../ProductCard'
+import { useAuth } from '../../hooks/auth.useAuth'
 
+import { ProductCard } from '../ProductCard'
 import * as S from './styles'
 
 register()
 
 export function ProductSlider({ data }) {
+  const { isAdmin } = useAuth()
   const swiperRef = useRef(null)
 
   useEffect(() => {
@@ -18,10 +19,26 @@ export function ProductSlider({ data }) {
       navigation: true,
       injectStyles: [S.NavButton, S.PrevButton, S.NextButton],
       breakpoints: {
-        0: { slidesPerView: 1.25, spaceBetween: 16 },
-        425: { slidesPerView: 2.25, spaceBetween: 16 },
+        0: {
+          slidesPerView: 1.5,
+          spaceBetween: 16,
+          slidesOffsetBefore: 28,
+          slidesOffsetAfter: 28,
+        },
+        320: {
+          slidesPerView: 1.8,
+          spaceBetween: 16,
+          slidesOffsetBefore: 28,
+          slidesOffsetAfter: 28,
+        },
+        640: {
+          slidesPerView: 2.5,
+          spaceBetween: 16,
+          slidesOffsetBefore: 28,
+          slidesOffsetAfter: 28,
+        },
         768: { slidesPerView: 2.5, spaceBetween: 28 },
-        1024: { slidesPerView: 3.5, spaceBetween: 28 },
+        1024: { slidesPerView: 3.4, spaceBetween: 28 },
       },
     }
     Object.assign(swiperContainer, swiperParams)
@@ -29,15 +46,22 @@ export function ProductSlider({ data }) {
   }, [])
 
   return (
-    <swiper-container ref={swiperRef} init="false">
+    <S.SwiperContainer ref={swiperRef} init="false">
       {data.map(product => {
         return (
           <S.SwiperSlide key={product.id}>
-            <ProductCard product={product} />
+            <ProductCard.Root product={product}>
+              <ProductCard.Image />
+              <ProductCard.Title />
+              <ProductCard.Description />
+              <ProductCard.Price />
+              {!isAdmin && <ProductCard.Actions />}
+              <ProductCard.Bookmark />
+            </ProductCard.Root>
           </S.SwiperSlide>
         )
       })}
-    </swiper-container>
+    </S.SwiperContainer>
   )
 }
 
