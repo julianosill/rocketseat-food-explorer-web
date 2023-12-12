@@ -4,9 +4,8 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Container = styled.div`
   position: relative;
-
   height: 100%;
-  padding: 2.4rem;
+  padding: ${({ $admin }) => ($admin ? '4.8rem' : '2.4rem')};
 
   background-color: ${({ theme }) => theme.COLORS.DARK_200};
   border-color: ${({ theme }) => theme.COLORS.DARK_300};
@@ -19,56 +18,43 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: ${props => (props.$isAdmin ? 'center' : 'start')};
+  justify-content: ${({ $admin }) => ($admin ? 'center' : 'start')};
   gap: 1.5rem;
-
-  transition: box-shadow 0.2s ease;
 
   &:hover {
     img {
       transform: scale(1.025);
     }
-
-    h3 {
-      transform: scale(1.05);
-    }
-  }
-
-  a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  img {
-    width: 100%;
-    max-width: 18rem;
-    transition: transform 0.2s ease;
-  }
-
-  h3 {
-    ${FONT_STYLES.poppins300Bold}
-    color: ${({ theme }) => theme.COLORS.LIGHT_300};
-    transition: transform 0.2s ease;
-  }
-
-  p {
-    ${FONT_STYLES.robotoSmallerRegular}
-    color: ${({ theme }) => theme.COLORS.LIGHT_400};
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     gap: 1.2rem;
-
-    h3 {
-      ${FONT_STYLES.poppins100Medium}
-    }
-
-    p {
-      display: none;
-    }
   }
+`
+
+export const Image = styled.img`
+  width: 100%;
+  max-width: 18rem;
+
+  transition: all 0.2s ease;
+`
+
+export const Title = styled.h3`
+  ${FONT_STYLES.poppins300Bold}
+  color: ${({ theme }) => theme.COLORS.LIGHT_300};
+
+  &::after {
+    content: ' >';
+  }
+
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    ${FONT_STYLES.poppins100Medium}
+  }
+`
+
+export const Description = styled.p`
+  ${FONT_STYLES.robotoSmallerRegular}
+  color: ${({ theme }) => theme.COLORS.LIGHT_400};
 `
 
 export const Price = styled.div`
@@ -88,6 +74,10 @@ export const Actions = styled.section`
   align-items: center;
   gap: 1.6rem;
 
+  > div {
+    padding: 0.4rem 0;
+  }
+
   @media (max-width: ${BREAKPOINTS.SM}) {
     flex-direction: column;
 
@@ -98,14 +88,14 @@ export const Actions = styled.section`
   }
 `
 
-export const CardAction = styled.div`
+export const Bookmark = styled.div`
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.4rem;
+  right: 1.4rem;
 `
 
-export const CardButton = styled.button`
-  padding: 0.6rem;
+export const BookmarkButton = styled.button`
+  padding: 0.2rem;
 
   color: ${({ theme, $favorited }) =>
     $favorited ? theme.COLORS.TOMATO_100 : theme.COLORS.LIGHT_300};
@@ -113,7 +103,6 @@ export const CardButton = styled.button`
   transition: all 0.2s ease;
 
   &:hover {
-    opacity: 0.75;
     transform: scale(1.1);
   }
 
