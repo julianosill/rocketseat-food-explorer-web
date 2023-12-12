@@ -5,7 +5,7 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 export const Container = styled.div`
   position: relative;
   height: 100%;
-  padding: ${({ $admin }) => ($admin ? '4.8rem' : '2.4rem')};
+  padding: ${({ $admin }) => ($admin ? '4.8rem 2.4rem' : '2.4rem')};
 
   background-color: ${({ theme }) => theme.COLORS.DARK_200};
   border-color: ${({ theme }) => theme.COLORS.DARK_300};
@@ -37,6 +37,10 @@ export const Image = styled.img`
   max-width: 18rem;
 
   transition: all 0.2s ease;
+
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    max-width: 8.8rem;
+  }
 `
 
 export const Title = styled.h3`
