@@ -1,20 +1,13 @@
 import PropTypes from 'prop-types'
-
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
-import { api, imageUrl } from '../../services/api'
+import { imageUrl } from '../../services/api'
 import { formatToPrice, formatToNumber } from '../../utils/formatters'
 import { useProductHandler } from '../../hooks/product.useProductHandler'
 
 import { Input } from '../Input'
-import { InputPrice } from '../InputPrice'
-import { InputTags } from '../InputTags'
-import { InputUpload } from '../InputUpload'
-import { Select } from '../Select'
-import { Textarea } from '../Textarea'
 import { Button } from '../Button'
 import * as S from './styles'
 
@@ -29,17 +22,16 @@ export function FormProduct({ data }) {
     validateInputsHandler,
   } = useProductHandler()
 
-  const productData = data
-  const productImage = productData?.image && `${imageUrl}/${productData?.image}`
-  const productPrice = productData && formatToPrice(productData.price)
+  const product = data
+  const productImage = product?.image && `${imageUrl}/${product?.image}`
+  const productPrice = product && formatToPrice(product.price)
 
-  const [categories, setCategories] = useState(null)
   const [image, setImage] = useState(productImage || null)
-  const [name, setName] = useState(productData?.name || '')
-  const [ingredients, setIngredients] = useState(productData?.ingredients || [])
-  const [category, setCategory] = useState(productData?.category || '')
+  const [name, setName] = useState(product?.name || '')
+  const [ingredients, setIngredients] = useState(product?.ingredients || [])
+  const [category, setCategory] = useState(product?.category || '')
   const [price, setPrice] = useState(productPrice || '')
-  const [description, setDescription] = useState(productData?.description || '')
+  const [description, setDescription] = useState(product?.description || '')
 
   const [newIngredient, setNewIngredient] = useState('')
   const [imageFile, setImageFile] = useState(null)
@@ -47,7 +39,7 @@ export function FormProduct({ data }) {
 
   const navigate = useNavigate()
 
-  function preventSubmitOnEnter(e) {
+  function preventDefault(e) {
     if (e.code === 'Enter') {
       e.preventDefault()
     }
@@ -56,19 +48,19 @@ export function FormProduct({ data }) {
   function handleChangeAvatar(e) {
     const file = e.target.files[0]
 
-    if (file) {
-      if (file.type !== 'image/png') {
-        return alert('A imagem deve estar em formato PNG.')
-      }
-      setImageFile(file)
-      const imagePreview = URL.createObjectURL(file)
-      setImage(imagePreview)
+    if (!file) return
+
+    if (file.type !== 'image/png') {
+      return alert('A imagem deve estar em formato PNG.')
     }
+
+    setImageFile(file)
+    const imagePreview = URL.createObjectURL(file)
+    return setImage(imagePreview)
   }
 
   function handleAddTag(e) {
     e.preventDefault()
-
     if (newIngredient) {
       const hasTag = ingredients.includes(newIngredient)
       if (hasTag) {
@@ -79,7 +71,8 @@ export function FormProduct({ data }) {
     }
   }
 
-  function handleDeleteTag(ingredient) {
+  function handleDeleteTag(e, ingredient) {
+    e.preventDefault()
     const filteredTags = ingredients.filter(tag => tag !== ingredient)
     setIngredients(filteredTags)
   }
@@ -110,8 +103,8 @@ export function FormProduct({ data }) {
 
     console.log(newProduct.price)
 
-    productData
-      ? updateProduct(productData.id, newProduct, imageFile)
+    product
+      ? updateProduct(product.id, newProduct, imageFile)
       : addProduct(newProduct, imageFile).then(() => {
           setImage(null)
           setImageFile(null)
@@ -125,7 +118,7 @@ export function FormProduct({ data }) {
 
   async function handleDeleteProduct(e) {
     e.preventDefault()
-    deleteProduct(productData)
+    deleteProduct(product)
   }
 
   function handleCancel(e) {
@@ -133,103 +126,96 @@ export function FormProduct({ data }) {
     navigate(-1)
   }
 
-  useEffect(() => {
-    async function getCategories() {
-      await api
-        .get(`/categories`, { withCredentials: true })
-        .then(response => {
-          setCategories(response.data.map(category => category.name))
-        })
-        .catch(error => console.error(error))
-    }
-    getCategories()
-  }, [])
-
   return (
     <S.Container onSubmit={handleSubmit}>
-      <S.FlexRow>
-        <S.UploadImage>
-          <InputUpload
-            id="image"
-            label="Imagem do produto"
+      <S.FormRow>
+        <Input.Root data-form="image">
+          <Input.Label text="Imagem do produto" htmlFor="image2" />
+          <Input.Upload
+            id="image2"
             image={image}
             text={image ? 'Selecione para alterá-la' : 'Selecione a imagem'}
             onChange={handleChangeAvatar}
+            error={error?.image}
           />
-          {error?.image && <S.Error>{error.image}</S.Error>}
-        </S.UploadImage>
-        <S.Name>
-          <Input
+        </Input.Root>
+
+        <Input.Root data-form="name">
+          <Input.Label text="Nome" htmlFor="name" />
+          <Input.Content
             id="name"
             type="text"
-            label="Nome"
             value={name}
             onChange={e => setName(e.target.value)}
-            onKeyDown={preventSubmitOnEnter}
+            onKeyDown={preventDefault}
             placeholder="Ex.: Salada Caesar"
+            error={error?.name}
           />
-          {error?.name && <S.Error>{error.name}</S.Error>}
-        </S.Name>
-        {categories && (
-          <S.Categories>
-            <Select
-              id="categories"
-              label="Categoria"
-              options={categories}
-              value={category}
-              onChange={e => setCategory(e.target.value)}
-              onKeyDown={preventSubmitOnEnter}
-            />
-            {error?.category && <S.Error>{error.category}</S.Error>}
-          </S.Categories>
-        )}
-      </S.FlexRow>
+        </Input.Root>
 
-      <S.FlexRow>
-        <S.Ingredients>
-          <InputTags
+        <Input.Root data-form="category">
+          <Input.Label text="Categoria" htmlFor="category" />
+          <Input.Select
+            id="category"
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+            onKeyDown={preventDefault}
+            error={error?.category}
+          >
+            <option value="">Selecione a categoria</option>
+            <option value="Refeições">Refeições</option>
+            <option value="Sobremesas">Sobremesas</option>
+            <option value="Bebidas">Bebidas</option>
+          </Input.Select>
+        </Input.Root>
+      </S.FormRow>
+
+      <S.FormRow>
+        <Input.Root data-form="ingredients">
+          <Input.Label text="Ingredientes" htmlFor="ingredients" />
+          <Input.Tags
             id="ingredients"
-            label="Ingredientes"
             data={ingredients}
             newTag={newIngredient}
             setNewTag={setNewIngredient}
             handleDeleteTag={handleDeleteTag}
             handleAddTag={handleAddTag}
+            error={error?.ingredients}
           />
-          {error?.ingredients && <S.Error>{error.ingredients}</S.Error>}
-          {error?.newIngredient && <S.Error>{error.newIngredient}</S.Error>}
-        </S.Ingredients>
-        <S.Price>
-          <InputPrice
+        </Input.Root>
+
+        <Input.Root data-form="price">
+          <Input.Label text="Preço" htmlFor="price" />
+          <Input.Price
             id="price"
-            label="Preço"
+            type="text"
             value={price}
             onChange={e => setPrice(e.target.value)}
-            onKeyDown={preventSubmitOnEnter}
+            onKeyDown={preventDefault}
             placeholder="R$ 00,00"
+            error={error?.price}
           />
-          {error?.price && <S.Error>{error.price}</S.Error>}
-        </S.Price>
-      </S.FlexRow>
+        </Input.Root>
+      </S.FormRow>
 
-      <S.FlexRow>
-        <Textarea
+      <Input.Root>
+        <Input.Label text="Descrição" htmlFor="description" />
+        <Input.Textarea
           id="description"
-          label="Descrição"
           value={description}
           onChange={e => setDescription(e.target.value)}
           placeholder="Fale brevemente sobre o prato, seus ingredientes e composição."
+          error={error?.description}
         />
-        {error?.description && <S.Error>{error.description}</S.Error>}
-      </S.FlexRow>
+      </Input.Root>
 
       <S.Actions>
         <Button text="Cancelar" variant="secondary" onClick={handleCancel} />
-        {productData ? (
+        {product ? (
           <>
             <Button
               icon={loadingDelete ? AiOutlineLoading3Quarters : null}
-              text={loadingDelete ? 'Excluindo produto' : 'Excluir produto'}
+              text={loadingDelete ? 'Excluindo produto...' : 'Excluir produto'}
               variant="secondary"
               disabled={loadingDelete}
               loading={loadingDelete}
@@ -237,7 +223,9 @@ export function FormProduct({ data }) {
             />
             <Button
               icon={loadingUpdate ? AiOutlineLoading3Quarters : null}
-              text={loadingUpdate ? 'Salvando alterações' : 'Salvar alterações'}
+              text={
+                loadingUpdate ? 'Salvando alterações...' : 'Salvar alterações'
+              }
               disabled={loadingUpdate}
               loading={loadingUpdate}
               onClick={handleSubmit}
@@ -246,7 +234,7 @@ export function FormProduct({ data }) {
         ) : (
           <Button
             icon={loadingAdd ? AiOutlineLoading3Quarters : null}
-            text={loadingAdd ? 'Adicionando produto' : 'Adicionar produto'}
+            text={loadingAdd ? 'Adicionando produto...' : 'Adicionar produto'}
             disabled={loadingAdd}
             loading={loadingAdd}
             onClick={handleSubmit}
