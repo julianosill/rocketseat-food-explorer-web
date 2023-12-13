@@ -1,4 +1,6 @@
 export function formatToPrice(amount) {
+  if (!amount) return null
+
   const price = amount.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
@@ -7,6 +9,7 @@ export function formatToPrice(amount) {
 }
 
 export function formatToNumber(amount) {
+  if (!amount) return null
   const [, price] = amount.split('R$')
   const number = parseFloat(price.replace(/\./g, '').replace(',', '.'))
   return number
