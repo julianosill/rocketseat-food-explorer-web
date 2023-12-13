@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Container = styled.form`
@@ -56,4 +57,19 @@ export const Actions = styled.div`
   @media (max-width: ${BREAKPOINTS.SM}) {
     flex-direction: column;
   }
+`
+
+export const Error = styled.div`
+  ${FONT_STYLES.robotoSmallerRegular}
+
+  width: 100%;
+  padding: 0.8rem;
+  text-align: center;
+
+  color: ${({ theme }) => theme.COLORS.TOMATO_400};
+
+  border-color: ${({ theme }) => theme.COLORS.TOMATO_400};
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.8rem;
 `

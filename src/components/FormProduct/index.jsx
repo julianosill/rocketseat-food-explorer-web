@@ -5,7 +5,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import { imageUrl } from '../../services/api'
 import { formatToPrice, formatToNumber } from '../../utils/formatters'
-import { useProductHandler } from '../../hooks/product.useProductHandler'
+import { useFormProduct } from './useFormProduct'
 
 import { Input } from '../Input'
 import { Button } from '../Button'
@@ -14,13 +14,13 @@ import * as S from './styles'
 export function FormProduct({ data }) {
   const {
     loadingAdd,
-    addProduct,
     loadingUpdate,
-    updateProduct,
     loadingDelete,
+    addProduct,
+    updateProduct,
     deleteProduct,
-    validateInputsHandler,
-  } = useProductHandler()
+    validateInputs,
+  } = useFormProduct()
 
   const product = data
   const productImage = product?.image && `${imageUrl}/${product?.image}`
@@ -33,9 +33,9 @@ export function FormProduct({ data }) {
   const [price, setPrice] = useState(productPrice || '')
   const [description, setDescription] = useState(product?.description || '')
 
-  const [newIngredient, setNewIngredient] = useState('')
   const [imageFile, setImageFile] = useState(null)
-  const [error, setError] = useState({})
+  const [newIngredient, setNewIngredient] = useState('')
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate()
 
@@ -61,14 +61,15 @@ export function FormProduct({ data }) {
 
   function handleAddTag(e) {
     e.preventDefault()
-    if (newIngredient) {
-      const hasTag = ingredients.includes(newIngredient)
-      if (hasTag) {
-        return alert(`"${newIngredient}" já foi adicionado.`)
-      }
-      setIngredients([...ingredients, newIngredient])
-      setNewIngredient('')
+    if (!newIngredient) return
+
+    const hasTag = ingredients.includes(newIngredient)
+    if (hasTag) {
+      return alert(`"${newIngredient}" já foi adicionado.`)
     }
+
+    setIngredients([...ingredients, newIngredient])
+    setNewIngredient('')
   }
 
   function handleDeleteTag(e, ingredient) {
@@ -79,41 +80,38 @@ export function FormProduct({ data }) {
 
   function handleSubmit(e) {
     e.preventDefault()
-    setError({})
+    setError(null)
 
-    const error = validateInputsHandler({
+    const productData = {
       image,
       name,
       category,
       newIngredient,
       ingredients,
-      price,
-      description,
-    })
-
-    if (error) return setError(error)
-
-    const newProduct = {
-      name,
-      description,
-      category,
-      ingredients,
       price: formatToNumber(price),
+      description,
     }
 
-    console.log(newProduct.price)
+    const error = validateInputs(productData)
+    if (error) return setError(error)
 
     product
-      ? updateProduct(product.id, newProduct, imageFile)
-      : addProduct(newProduct, imageFile).then(() => {
-          setImage(null)
-          setImageFile(null)
-          setName('')
-          setIngredients([])
-          setCategory('')
-          setPrice('')
-          setDescription('')
+      ? updateProduct(product.id, productData, imageFile).catch(error => {
+          setError(error)
         })
+      : addProduct(productData, imageFile)
+          .then(() => {
+            setImage(null)
+            setImageFile(null)
+            setName('')
+            setIngredients([])
+            setCategory('')
+            setPrice('')
+            setDescription('')
+          })
+          .catch(error => {
+            setError(error)
+          })
   }
 
   async function handleDeleteProduct(e) {
@@ -127,7 +125,7 @@ export function FormProduct({ data }) {
   }
 
   return (
-    <S.Container onSubmit={handleSubmit}>
+    <S.Container>
       <S.FormRow>
         <Input.Root data-form="image">
           <Input.Label text="Imagem do produto" htmlFor="image2" />
@@ -208,6 +206,8 @@ export function FormProduct({ data }) {
           error={error?.description}
         />
       </Input.Root>
+
+      {error?.apiError && <S.Error>{error.apiError}</S.Error>}
 
       <S.Actions>
         <Button text="Cancelar" variant="secondary" onClick={handleCancel} />
