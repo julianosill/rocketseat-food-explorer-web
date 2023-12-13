@@ -8,15 +8,9 @@ export function handleFilterByCategory(category, productList) {
 }
 
 export function handleFailedMessage(category, message) {
-  if (!message) {
+  if (!category || !message) {
     return ERROR_MESSAGES['default']
   }
 
-  if (category && message) {
-    for (const category of Object.keys(ERROR_MESSAGES)) {
-      const errorMessage =
-        ERROR_MESSAGES[category][message] || ERROR_MESSAGES['default']
-      return errorMessage
-    }
-  }
+  return ERROR_MESSAGES[category][message] || ERROR_MESSAGES['default']
 }
