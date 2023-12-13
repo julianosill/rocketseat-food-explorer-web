@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { api } from '../services/api'
+import { api } from '../../services/api'
+import { handleFailedMessage } from '../../utils/handlers'
 
-export function useProductHandler() {
+export function useFormProduct() {
   const [loadingAdd, setLoadingAdd] = useState(false)
   const [loadingDelete, setLoadingDelete] = useState(false)
   const [loadingUpdate, setLoadingUpdate] = useState(false)
@@ -18,9 +19,6 @@ export function useProductHandler() {
       const product_id = await api
         .post('/products', product, { withCredentials: true })
         .then(response => response.data.id)
-        .catch(error => {
-          throw new Error(error)
-        })
 
       if (product_id && imageFile) {
         const fileUploadForm = new FormData()
@@ -32,12 +30,8 @@ export function useProductHandler() {
 
       toast.success(`"${product.name}" foi adicionado com sucesso.`)
     } catch (error) {
-      if (error.response) {
-        console.error(error.response.data.message)
-      } else {
-        console.error(error)
-      }
-      throw new Error(error)
+      console.error(error)
+      handleApiError(error)
     } finally {
       setLoadingAdd(false)
     }
@@ -60,16 +54,9 @@ export function useProductHandler() {
         .then(() => {
           toast.success(`"${product.name}" foi atualizado com sucesso.`)
         })
-        .catch(error => {
-          throw new Error(error)
-        })
     } catch (error) {
-      if (error.response) {
-        console.error(error.response.data.message)
-      } else {
-        console.error(error)
-      }
-      throw new Error(error)
+      console.error(error)
+      handleApiError(error)
     } finally {
       setLoadingUpdate(false)
     }
@@ -91,48 +78,56 @@ export function useProductHandler() {
           })
       }
     } catch (error) {
-      if (error.response) {
-        console.error(error.response.data.message)
-      } else {
-        console.error(error)
-      }
-      throw new Error(error)
+      console.error(error)
+      handleApiError(error)
     } finally {
       setLoadingDelete(false)
     }
   }
 
-  function validateInputsHandler(inputs) {
+  function validateInputs(inputs) {
     if (!inputs.image) {
-      return { image: 'Adicione a imagem do produto.' }
+      return { image: 'Adicione a imagem' }
     }
     if (!inputs.name) {
-      return { name: 'Informe o nome do produto.' }
+      return { name: 'Informe o nome' }
     }
     if (!inputs.category) {
-      return { category: 'Selecione uma categoria.' }
+      return { category: 'Selecione uma categoria' }
     }
     if (inputs.newIngredient) {
-      return { ingredients: 'O ingrediente ainda não foi adicionado.' }
+      return { ingredients: 'O ingrediente ainda não foi adicionado' }
     }
     if (!inputs.ingredients.length) {
-      return { ingredients: 'Adicione ao menos um ingrediente.' }
+      return { ingredients: 'Adicione ao menos um ingrediente' }
     }
     if (!inputs.price) {
-      return { price: 'Informe o preço do produto.' }
+      return { price: 'Informe o preço' }
     }
     if (!inputs.description) {
-      return { description: 'Insira uma descrição sobre o produto.' }
+      return { description: 'Insira uma descrição' }
     }
+  }
+
+  function handleApiError(error) {
+    let apiError
+
+    if (error.response) {
+      apiError = handleFailedMessage('product', error.response.data.message)
+      throw { apiError }
+    }
+
+    apiError = handleFailedMessage()
+    throw { apiError }
   }
 
   return {
     loadingAdd,
-    addProduct,
     loadingUpdate,
-    updateProduct,
     loadingDelete,
+    addProduct,
+    updateProduct,
     deleteProduct,
-    validateInputsHandler,
+    validateInputs,
   }
 }
