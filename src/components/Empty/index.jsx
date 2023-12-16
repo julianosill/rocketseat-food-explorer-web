@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import * as S from './styles'
 
-export function Empty({ children, ...props }) {
+function EmptyRoot({ children, ...props }) {
   return <S.Container {...props}>{children}</S.Container>
 }
 
@@ -25,10 +25,13 @@ function EmptyMessage({ children }) {
   return <S.Message>{children}</S.Message>
 }
 
-Empty.Icon = EmptyIcon
-Empty.Content = EmptyContent
-Empty.Title = EmptyTitle
-Empty.Message = EmptyMessage
+export const Empty = {
+  Root: EmptyRoot,
+  Icon: EmptyIcon,
+  Content: EmptyContent,
+  Title: EmptyTitle,
+  Message: EmptyMessage,
+}
 
 const propTypes = {
   children: PropTypes.node.isRequired,
@@ -36,7 +39,7 @@ const propTypes = {
   text: PropTypes.string.isRequired,
 }
 
-Empty.propTypes = { children: propTypes.children }
+EmptyRoot.propTypes = { children: propTypes.children }
 EmptyIcon.propTypes = { icon: propTypes.icon }
 EmptyContent.propTypes = { children: propTypes.children }
 EmptyTitle.propTypes = { text: propTypes.text }
