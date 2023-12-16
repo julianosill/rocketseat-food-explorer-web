@@ -1,54 +1,75 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { api } from '../../services/api'
+import { Link, useParams } from 'react-router-dom'
+import { MdOutlineNoFood } from 'react-icons/md'
 
-import { HiOutlineChevronLeft } from 'react-icons/hi'
+import { api } from '../../services/api'
+import { handleFailedMessage } from '../../utils/handlers'
 
 import { Loading } from '../../components/Loading'
-import { LoadingFailed } from '../../components/LoadingFailed'
+import { BackButton } from '../../components/BackButton'
 import { ProductInfo } from '../../components/ProductInfo'
+import { Empty } from '../../components/Empty'
 import * as S from './styles'
 
 export function ProductDetails() {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
-  const [loadingProduct, setLoadingProduct] = useState(false)
-  const [requestFailed, setRequestFailed] = useState(null)
-
-  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     async function getProduct() {
-      setLoadingProduct(true)
+      setIsLoading(true)
       await api
         .get(`/products/${id}`, { withCredentials: true })
         .then(response => {
           setProduct(response.data)
-          setRequestFailed(null)
+          setError(null)
         })
         .catch(error => {
-          console.log(error)
-          let errorMessage = 'error'
+          let errorMessage
           if (error.response) {
-            errorMessage = error.response.data.message || 'error'
+            errorMessage = error.response.data.message || null
           }
-          setRequestFailed(errorMessage)
+          setError(handleFailedMessage('product', errorMessage))
         })
-        .finally(() => setLoadingProduct(false))
+        .finally(() => setIsLoading(false))
     }
     getProduct()
   }, [id])
 
+  if (isLoading) {
+    return (
+      <S.LoadingContainer>
+        <Loading text="Carregando informações do produto" />
+      </S.LoadingContainer>
+    )
+  }
+
   return (
     <S.Container>
-      <S.BackButton onClick={() => navigate(-1)}>
-        <HiOutlineChevronLeft /> voltar
-      </S.BackButton>
-      {loadingProduct && (
-        <Loading text="Carregando deliciosas informações..." />
+      <BackButton />
+      {product ? (
+        <ProductInfo.Root product={product}>
+          <ProductInfo.Title />
+          <ProductInfo.Description />
+          <ProductInfo.Tags />
+          <ProductInfo.Actions />
+        </ProductInfo.Root>
+      ) : (
+        <S.EmptyContainer>
+          <Empty.Root orientation="vertical">
+            <Empty.Icon icon={MdOutlineNoFood} />
+            <Empty.Content>
+              <Empty.Title text={error} />
+              <Empty.Message>
+                Confira outros produtos do nosso menu{' '}
+                {<Link to="/">clicando aqui</Link>}.
+              </Empty.Message>
+            </Empty.Content>
+          </Empty.Root>
+        </S.EmptyContainer>
       )}
-      {requestFailed && <LoadingFailed message={requestFailed} />}
-      {product && <ProductInfo product={product} />}
     </S.Container>
   )
 }
