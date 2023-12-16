@@ -4,11 +4,11 @@ import { ANIMATE } from '../../styles/animations'
 
 export const Container = styled.div`
   width: 100%;
-
   text-align: center;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ orientation }) =>
+    orientation === 'vertical' ? 'column' : 'row'};
   align-items: center;
   gap: 2rem;
 
