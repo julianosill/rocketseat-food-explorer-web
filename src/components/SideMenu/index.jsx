@@ -1,19 +1,23 @@
 import { useNavigate } from 'react-router-dom'
-
 import { TfiClose } from 'react-icons/tfi'
-import { FiSearch } from 'react-icons/fi'
 
 import { useAuth } from '../../hooks/auth.useAuth'
 import { useStateProvider } from '../../hooks/components.useStateProvider'
 
 import { Container } from '../Container'
-import { InputSearch } from '../InputSearch'
+import { Search } from '../Search'
+import { Footer } from '../Footer'
 import * as S from './styles'
 
 export function SideMenu() {
   const { isAdmin, signOut } = useAuth()
   const { menuIsOpen, setMenuIsOpen } = useStateProvider()
   const navigate = useNavigate()
+
+  function handleNavigate(path) {
+    navigate(path)
+    return setMenuIsOpen(false)
+  }
 
   return (
     <S.Wrapper data-menu-is-open={menuIsOpen}>
@@ -24,30 +28,35 @@ export function SideMenu() {
           </S.CloseMenu>
         </Container>
       </S.Header>
-      <Container>
-        <S.Search>
-          <InputSearch
-            id="search"
-            label="Pesquisar"
-            icon={FiSearch}
-            placeholder="Busque por pratos ou ingredientes"
-          />
-        </S.Search>
-        <S.Menu>
-          {isAdmin && (
-            <button onClick={() => navigate('/admin/adicionar')}>
-              Novo produto
+      <S.Content>
+        <Container>
+          <Search id="side-search" />
+          <S.Menu data-menu-is-open={menuIsOpen}>
+            {isAdmin && (
+              <button onClick={() => handleNavigate('/admin/adicionar')}>
+                Novo produto
+              </button>
+            )}
+            <button onClick={() => handleNavigate('/favoritos')}>
+              Meus favoritos
             </button>
-          )}
-          <button onClick={() => navigate('/favoritos')}>Meus favoritos</button>
-          {!isAdmin && (
-            <button onClick={() => navigate('/historico')}>
-              Histórico de pedidos
+            {!isAdmin && (
+              <button onClick={() => handleNavigate('/pedidos')}>
+                Histórico de pedidos
+              </button>
+            )}
+            <button
+              onClick={() => {
+                signOut()
+                navigate('/')
+              }}
+            >
+              Sair
             </button>
-          )}
-          <button onClick={signOut}>Sair</button>
-        </S.Menu>
-      </Container>
+          </S.Menu>
+        </Container>
+      </S.Content>
+      <Footer />
     </S.Wrapper>
   )
 }
