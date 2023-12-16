@@ -32,18 +32,22 @@ export const Order = styled.section`
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     width: 100%;
+
+    &[data-hide='true'] {
+      display: none;
+    }
   }
 `
 
 export const OrderContent = styled.div`
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
 `
 
 export const OrderList = styled.ul`
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
@@ -51,7 +55,7 @@ export const OrderList = styled.ul`
 
 export const Coupon = styled.div`
   width: 100%;
-  max-width: 36rem;
+  max-width: 42rem;
 `
 
 export const OrderPrice = styled.div`
@@ -73,9 +77,30 @@ export const Discount = styled.div`
 `
 
 export const Payment = styled.section`
-  width: 53rem;
+  width: 52rem;
+
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    width: 36rem;
+  }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     width: 100%;
+
+    &[data-hide='true'] {
+      display: none;
+    }
+  }
+`
+
+export const OrderAction = styled.div`
+  width: 100%;
+  margin-top: 3.1rem;
+
+  > button {
+    padding: 1.2rem 3.2rem;
+  }
+
+  @media (min-width: ${BREAKPOINTS.MIN_SM}) {
+    display: none;
   }
 `

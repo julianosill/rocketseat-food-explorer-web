@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
 import { RiCoupon3Line } from 'react-icons/ri'
-import { FaRegFaceGrinBeamSweat } from 'react-icons/fa6'
 import { PiCaretCircleRight } from 'react-icons/pi'
+import { BsCartX } from 'react-icons/bs'
 
 import { api } from '../../services/api'
 import { useCart } from '../../hooks/cart.useCart'
@@ -14,6 +13,7 @@ import { Loading } from '../../components/Loading'
 import { PageTitle } from '../../components/PageTitle'
 import { ProductItem } from '../../components/ProductItem'
 import { Input } from '../../components/Input'
+import { Button } from '../../components/Button'
 import { PaymentCard } from '../../components/PaymentCard'
 import { Empty } from '../../components/Empty'
 
@@ -27,10 +27,25 @@ export function Order() {
   const [coupon, setCoupon] = useState(null)
   const [couponError, setCouponError] = useState(false)
   const [orderPrice, setOrderPrice] = useState(0)
+  const [orderStep, setOrderStep] = useState('order-list')
 
   const hasOrderItems = order?.length > 0
   const couponRef = useRef()
   const navigate = useNavigate()
+
+  function ShowDiscount() {
+    return (
+      <S.Discount>
+        {`Promo ${coupon.name}: ${coupon.discount * 100}% de desconto`}
+      </S.Discount>
+    )
+  }
+
+  function ShowTotalPrice() {
+    let total = orderPrice
+    if (coupon?.discount) total = orderPrice - orderPrice * coupon.discount
+    return `Total: ${formatToPrice(total)}`
+  }
 
   function handleCoupon() {
     setCouponError(false)
@@ -44,14 +59,8 @@ export function Order() {
     return setCoupon(null)
   }
 
-  function ShowDiscount() {
-    return `Promo ${coupon.name}: ${coupon.discount * 100}% de desconto`
-  }
-
-  function ShowTotalPrice() {
-    let total = orderPrice
-    if (coupon?.discount) total = orderPrice - orderPrice * coupon.discount
-    return `Total: ${formatToPrice(total)}`
+  function handleMobileStep(path) {
+    return setOrderStep(path)
   }
 
   async function handleOrder() {
@@ -75,6 +84,7 @@ export function Order() {
 
       if (cartItemsId.length) {
         setIsLoading(true)
+
         await api
           .get(`/products?id=${cartItemsId}`, { withCredentials: true })
           .then(response => {
@@ -84,10 +94,7 @@ export function Order() {
               const itemToUpdate = cart.find(
                 cartItem => cartItem.id === orderItem.id
               )
-              if (itemToUpdate) {
-                return { ...orderItem, quantity: itemToUpdate.quantity }
-              }
-              return orderItem
+              return { ...orderItem, quantity: itemToUpdate.quantity }
             })
             setOrder(orderItems)
 
@@ -116,7 +123,7 @@ export function Order() {
 
   return (
     <S.Container>
-      <S.Order>
+      <S.Order data-hide={orderStep !== 'order-list'}>
         <S.Header>
           <PageTitle>Meu pedido</PageTitle>
         </S.Header>
@@ -144,6 +151,7 @@ export function Order() {
                   id="coupon"
                   type="text"
                   icon={RiCoupon3Line}
+                  onKeyDown={key => key.code === 'Enter' && handleCoupon()}
                   placeholder="Insira seu cupom de desconto"
                   error={couponError && 'Cupom inválido'}
                 >
@@ -159,9 +167,7 @@ export function Order() {
               {coupon && (
                 <>
                   <S.Subtotal>Subtotal: {formatToPrice(orderPrice)}</S.Subtotal>
-                  <S.Discount>
-                    <ShowDiscount />
-                  </S.Discount>
+                  <ShowDiscount />
                 </>
               )}
               <ShowTotalPrice />
@@ -171,7 +177,7 @@ export function Order() {
 
         {!hasOrderItems && (
           <Empty.Root>
-            <Empty.Icon icon={FaRegFaceGrinBeamSweat} />
+            <Empty.Icon icon={BsCartX} />
             <Empty.Content>
               <Empty.Title text="Seu carrinho está vazio" />
               <Empty.Message>
@@ -181,14 +187,25 @@ export function Order() {
             </Empty.Content>
           </Empty.Root>
         )}
+
+        <S.OrderAction>
+          <Button text="Avançar" onClick={() => handleMobileStep('payment')} />
+        </S.OrderAction>
       </S.Order>
 
       {hasOrderItems && (
-        <S.Payment>
+        <S.Payment data-hide={orderStep !== 'payment'}>
           <S.Header>
             <PageTitle>Pagamento</PageTitle>
           </S.Header>
           <PaymentCard onPaymentConfirm={handleOrder} />
+          <S.OrderAction>
+            <Button
+              text="Voltar"
+              variant="secondary"
+              onClick={() => handleMobileStep('order-list')}
+            />
+          </S.OrderAction>
         </S.Payment>
       )}
     </S.Container>
