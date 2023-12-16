@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types'
-
 import { createContext, useEffect, useState } from 'react'
 
 import { api } from '../services/api'
-import { handleFailedMessage } from '../utils/handlers'
+import { handleApiError } from '../utils/handlers'
 
 export const AuthContext = createContext({})
 
 export function AuthProvider({ children }) {
-  const [userData, setUserData] = useState(null)
-  const isAdmin = userData?.role === 'admin'
+  const [user, setUser] = useState(null)
+  const isAdmin = user?.role === 'admin'
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   const isValidEmail = email => emailRegex.test(email)
@@ -34,9 +33,7 @@ export function AuthProvider({ children }) {
     try {
       await api.post('/users', { name, email, password })
     } catch (error) {
-      console.error(error)
-      const apiError = handleFailedMessage('auth', error.response.data.message)
-      throw { apiError }
+      handleApiError('auth', error)
     }
   }
 
@@ -60,17 +57,15 @@ export function AuthProvider({ children }) {
         { withCredentials: true }
       )
       const { user } = response.data
-      setUserData(user)
+      setUser(user)
       localStorage.setItem('@foodexplorer:user', JSON.stringify(user))
     } catch (error) {
-      console.error(error)
-      const apiError = handleFailedMessage('auth', error.response.data.message)
-      throw { apiError }
+      handleApiError('auth', error)
     }
   }
 
   function signOut() {
-    setUserData(null)
+    setUser(null)
     localStorage.removeItem('@foodexplorer:user')
   }
 
@@ -80,11 +75,14 @@ export function AuthProvider({ children }) {
     async function validateUser() {
       const response = await api
         .get('users/validate', { withCredentials: true })
-        .catch(error => error.response?.status === 401 && signOut())
+        .catch(error => {
+          console.error(error)
+          signOut()
+        })
 
       const { user } = response.data
 
-      setUserData(user)
+      setUser(user)
       localStorage.setItem('@foodexplorer:user', JSON.stringify(user))
     }
 
@@ -94,7 +92,7 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        userData,
+        user,
         isAdmin,
         signUp,
         signIn,
