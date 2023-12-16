@@ -1,31 +1,24 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-
-import { HiOutlineChevronLeft } from 'react-icons/hi'
 
 import { api } from '../../services/api'
 import { handleFilterByCategory } from '../../utils/handlers'
 
+import headerImage from '../../assets/header.png'
 import { Loading } from '../../components/Loading'
-import { LoadingFailed } from '../../components/LoadingFailed'
 import { ProductSlider } from '../../components/ProductSlider'
 import * as S from './styles'
 
-export function ProductsSearch() {
-  const [searchParams] = useSearchParams()
+export function Home() {
   const [products, setProducts] = useState(null)
   const [isLoadingProducts, setIsLoadingProducts] = useState(false)
   const [requestFailed, setRequestFailed] = useState(null)
-
-  const searchQuery = searchParams.get('pesquisa') || ''
-  const navigate = useNavigate()
 
   useEffect(() => {
     async function getProducts() {
       setIsLoadingProducts(true)
       setRequestFailed(null)
       await api
-        .get(`/products?search=${searchQuery}`, { withCredentials: true })
+        .get('/products', { withCredentials: true })
         .then(response => {
           setProducts({
             dishes: handleFilterByCategory('Refeições', response.data),
@@ -44,27 +37,26 @@ export function ProductsSearch() {
         .finally(() => setIsLoadingProducts(false))
     }
     getProducts()
-  }, [searchQuery])
+  }, [])
 
   return (
     <>
       <S.Header>
-        <S.BackButton onClick={() => navigate(-1)}>
-          <HiOutlineChevronLeft /> voltar
-        </S.BackButton>
-
-        <S.Title>
-          {searchQuery
-            ? `Exibindo resultados de busca por: ${searchQuery}`
-            : 'Estes são todos os produtos disponíveis em nosso catálogo.'}
-        </S.Title>
+        <S.HeaderImage>
+          <img
+            src={headerImage}
+            alt="Macarons, frutas e folhas espalhadas pelo ar"
+          />
+        </S.HeaderImage>
+        <S.HeaderText>
+          <h1>Sabores inigualáveis</h1>
+          <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
+        </S.HeaderText>
       </S.Header>
 
       {isLoadingProducts && (
         <Loading text="Carregando deliciosas informações..." />
       )}
-
-      {requestFailed && <LoadingFailed message={requestFailed} />}
 
       {products?.dishes.length > 0 && (
         <S.Category>
