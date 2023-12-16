@@ -35,6 +35,7 @@ export const Title = styled.h3`
 
 export const Price = styled.div`
   ${FONT_STYLES.robotoSmallestRegular}
+  margin-bottom: 0.4rem;
   color: ${({ theme }) => theme.COLORS.LIGHT_400};
 
   display: flex;
@@ -60,6 +61,5 @@ export const Divider = styled.span`
 
 export const Button = styled.button`
   ${FONT_STYLES.robotoSmallestRegular}
-  margin-top: 0.4rem;
   color: ${({ theme }) => theme.COLORS.TOMATO_400};
 `
