@@ -37,6 +37,7 @@ export function CartProvider({ children }) {
     const confirm = window.confirm(
       `Tem certeza que deseja remover "${product.name}"?`
     )
+
     if (confirm) {
       const filteredItems = cart.filter(item => item.id !== product.id)
 
@@ -47,9 +48,13 @@ export function CartProvider({ children }) {
         setCart(filteredItems)
         updateStorageCart(filteredItems)
       }
-
       return toast.success(`"${product.name}" foi removido do carrinho.`)
     }
+  }
+
+  function clearCart() {
+    setCart([])
+    localStorage.removeItem('@foodexplorer:cart')
   }
 
   function updateStorageCart(items) {
@@ -62,6 +67,7 @@ export function CartProvider({ children }) {
         cart,
         addToCart,
         removeFromCart,
+        clearCart,
       }}
     >
       {children}
