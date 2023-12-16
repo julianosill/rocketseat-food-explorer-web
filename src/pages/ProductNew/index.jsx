@@ -1,23 +1,16 @@
-import { useNavigate } from 'react-router-dom'
-
-import { HiOutlineChevronLeft } from 'react-icons/hi'
-
+import { BackButton } from '../../components/BackButton'
 import { PageTitle } from '../../components/PageTitle'
 import { FormProduct } from '../../components/FormProduct'
 import * as S from './styles'
 
 export function ProductNew() {
-  const navigate = useNavigate()
-
   return (
-    <>
-      <S.BackButton onClick={() => navigate(-1)}>
-        <HiOutlineChevronLeft /> voltar
-      </S.BackButton>
+    <S.Container>
+      <BackButton size="sm" />
       <S.Header>
-        <PageTitle text="Adicionar produto" />
+        <PageTitle>Adicionar produto</PageTitle>
       </S.Header>
       <FormProduct />
-    </>
+    </S.Container>
   )
 }
