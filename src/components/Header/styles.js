@@ -3,8 +3,6 @@ import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Header = styled.header`
-  position: fixed;
-  z-index: 99;
   width: 100%;
   padding: 2.4rem 0;
 
