@@ -2,6 +2,14 @@ import styled from 'styled-components'
 import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
+export const LoadingContainer = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+`
+
 export const Header = styled.header`
   margin: 3.4rem 0 3.2rem;
 

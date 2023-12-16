@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { CiViewList } from 'react-icons/ci'
 
 import { useAuth } from '../../hooks/auth.useAuth'
 import { api } from '../../services/api'
+import { handleFailedMessage } from '../../utils/handlers'
 import { formatOrderId, formatDate } from '../../utils/formatters'
 
+import { Loading } from '../../components/Loading'
 import { PageTitle } from '../../components/PageTitle'
 import { Input } from '../../components/Input'
+import { Empty } from '../../components/Empty'
 import * as S from './styles'
 
 export function OrderHistory() {
   const { isAdmin } = useAuth()
 
+  const [isLoading, setIsLoading] = useState(false)
   const [orders, setOrders] = useState(null)
+  const [error, setError] = useState(null)
 
   function statusName(status) {
     switch (status) {
@@ -19,10 +26,8 @@ export function OrderHistory() {
         return 'Pendente'
       case 'progress':
         return 'Preparando'
-
       case 'delivered':
         return 'Entregue'
-
       default:
         return 'Pendente'
     }
@@ -32,23 +37,42 @@ export function OrderHistory() {
     const orderToUpdate = { id: orderId, status }
     await api
       .put('/orders', orderToUpdate, { withCredentials: true })
-      .then(fetchOrders)
+      .then(() => {
+        fetchOrders()
+        toast.success(`Pedido ${orderToUpdate.id} foi atualizado com sucesso.`)
+      })
       .catch(error => console.error(error))
   }
 
   async function fetchOrders() {
+    setIsLoading(true)
     await api
       .get('/orders', { withCredentials: true })
       .then(response => {
         const { data } = response
         setOrders(data)
       })
-      .catch(error => console.error(error))
+      .catch(error => {
+        let errorMessage
+        if (error.response) {
+          errorMessage = error.response.data.message || null
+        }
+        setError(handleFailedMessage('order', errorMessage))
+      })
+      .finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
     fetchOrders()
   }, [])
+
+  if (isLoading) {
+    return (
+      <S.LoadingContainer>
+        <Loading text="Carregando o histórico de pedidos" />
+      </S.LoadingContainer>
+    )
+  }
 
   return (
     <>
@@ -63,15 +87,17 @@ export function OrderHistory() {
           {isAdmin && <span>Pedidos</span>}
         </PageTitle>
       </S.Header>
-      <S.Table $admin={isAdmin}>
-        <S.TableHeader>
-          <S.TableHead data-cell="status">Status</S.TableHead>
-          <S.TableHead data-cell="id">Código</S.TableHead>
-          <S.TableHead data-cell="description">Detalhamento</S.TableHead>
-          <S.TableHead data-cell="date">Data e hora</S.TableHead>
-        </S.TableHeader>
-        {orders &&
-          orders.map(order => {
+
+      {orders && (
+        <S.Table $admin={isAdmin}>
+          <S.TableHeader>
+            <S.TableHead data-cell="status">Status</S.TableHead>
+            <S.TableHead data-cell="id">Código</S.TableHead>
+            <S.TableHead data-cell="description">Detalhamento</S.TableHead>
+            <S.TableHead data-cell="date">Data e hora</S.TableHead>
+          </S.TableHeader>
+
+          {orders.map(order => {
             return (
               <S.TableRow key={order.id}>
                 <S.TableCell data-cell="status">
@@ -110,7 +136,17 @@ export function OrderHistory() {
               </S.TableRow>
             )
           })}
-      </S.Table>
+        </S.Table>
+      )}
+
+      {!orders && (
+        <Empty.Root>
+          <Empty.Icon icon={CiViewList} />
+          <Empty.Content>
+            <Empty.Title text={error} />
+          </Empty.Content>
+        </Empty.Root>
+      )}
     </>
   )
 }
