@@ -4,13 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
 import { PiCaretCircleRight } from 'react-icons/pi'
 
-import { useStateProvider } from '../../hooks/components.useStateProvider'
-
 import { Input } from '../Input'
 
-export function Search({ ...props }) {
-  const { setMenuIsOpen } = useStateProvider()
-
+export function Search({ onSearch, ...props }) {
   const [query, setQuery] = useState('')
 
   const navigate = useNavigate()
@@ -21,7 +17,7 @@ export function Search({ ...props }) {
 
     navigate(`/produtos?pesquisa=${query}`)
     setQuery('')
-    setMenuIsOpen(false)
+    return onSearch()
   }
 
   return (
@@ -48,5 +44,6 @@ export function Search({ ...props }) {
 }
 
 Search.propTypes = {
+  onSearch: PropTypes.func,
   id: PropTypes.string.isRequired,
 }

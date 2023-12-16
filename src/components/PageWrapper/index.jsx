@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import { SideMenu } from '../SideMenu'
 import { Header } from '../Header'
 import { Container } from '../Container'
 import { Footer } from '../Footer'
 import * as S from './styles'
 
 export function PageWrapper({ page }) {
+  const [menuIsOpen, setMenuIsOpen] = useState(false)
+
   return (
     <S.Wrapper>
-      <Header />
+      <SideMenu menuIsOpen={menuIsOpen} setMenuIsOpen={setMenuIsOpen} />
+      <Header setMenuIsOpen={setMenuIsOpen} />
       <S.Content>
         <S.Main>
           <Container>{page}</Container>

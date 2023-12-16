@@ -1,17 +1,16 @@
+import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { TfiClose } from 'react-icons/tfi'
 
 import { useAuth } from '../../hooks/auth.useAuth'
-import { useStateProvider } from '../../hooks/components.useStateProvider'
 
 import { Container } from '../Container'
 import { Search } from '../Search'
 import { Footer } from '../Footer'
 import * as S from './styles'
 
-export function SideMenu() {
+export function SideMenu({ menuIsOpen, setMenuIsOpen }) {
   const { isAdmin, signOut } = useAuth()
-  const { menuIsOpen, setMenuIsOpen } = useStateProvider()
   const navigate = useNavigate()
 
   function handleNavigate(path) {
@@ -19,18 +18,22 @@ export function SideMenu() {
     return setMenuIsOpen(false)
   }
 
+  function closeSideMenu() {
+    return setMenuIsOpen(false)
+  }
+
   return (
     <S.Wrapper data-menu-is-open={menuIsOpen}>
       <S.Header>
         <Container>
-          <S.CloseMenu onClick={() => setMenuIsOpen(false)}>
+          <S.CloseMenu onClick={closeSideMenu}>
             <TfiClose /> Menu
           </S.CloseMenu>
         </Container>
       </S.Header>
       <S.Content>
         <Container>
-          <Search id="side-search" />
+          <Search id="side-search" onSearch={closeSideMenu} />
           <S.Menu data-menu-is-open={menuIsOpen}>
             {isAdmin && (
               <button onClick={() => handleNavigate('/admin/adicionar')}>
@@ -59,4 +62,9 @@ export function SideMenu() {
       <Footer />
     </S.Wrapper>
   )
+}
+
+SideMenu.propTypes = {
+  menuIsOpen: PropTypes.bool.isRequired,
+  setMenuIsOpen: PropTypes.func.isRequired,
 }
