@@ -42,19 +42,17 @@ export function Header() {
           </S.Search>
 
           <S.TextButtons>
+            <button onClick={() => navigate('/favoritos')}>
+              Meus favoritos
+            </button>
             {isAdmin ? (
               <button onClick={() => navigate('/admin/adicionar')}>
                 Novo produto
               </button>
             ) : (
-              <>
-                <button onClick={() => navigate('/favoritos')}>
-                  Meus favoritos
-                </button>
-                <button onClick={() => navigate('/pedidos')}>
-                  Histórico de pedidos
-                </button>
-              </>
+              <button onClick={() => navigate('/pedidos')}>
+                Histórico de pedidos
+              </button>
             )}
           </S.TextButtons>
 
