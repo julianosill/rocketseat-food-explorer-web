@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { api } from '../../services/api'
-import { handleFailedMessage } from '../../utils/handlers'
+import { handleApiError } from '../../utils/handlers'
 
 export function useFormProduct() {
   const [loadingAdd, setLoadingAdd] = useState(false)
@@ -56,7 +56,7 @@ export function useFormProduct() {
         })
     } catch (error) {
       console.error(error)
-      handleApiError(error)
+      handleApiError('product', error)
     } finally {
       setLoadingUpdate(false)
     }
@@ -79,7 +79,7 @@ export function useFormProduct() {
       }
     } catch (error) {
       console.error(error)
-      handleApiError(error)
+      handleApiError('product', error)
     } finally {
       setLoadingDelete(false)
     }
@@ -107,18 +107,6 @@ export function useFormProduct() {
     if (!inputs.description) {
       return { description: 'Insira uma descrição' }
     }
-  }
-
-  function handleApiError(error) {
-    let apiError
-
-    if (error.response) {
-      apiError = handleFailedMessage('product', error.response.data.message)
-      throw { apiError }
-    }
-
-    apiError = handleFailedMessage()
-    throw { apiError }
   }
 
   return {

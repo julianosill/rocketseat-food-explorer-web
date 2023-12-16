@@ -3,6 +3,7 @@ export const ERROR_MESSAGES = {
     'auth/email-already-exists': 'E-mail já está registrado',
     'auth/email-or-password-incorrect': 'E-mail e/ou senha incorretos',
     'auth/invalid-email': 'E-mail inválido',
+    'auth/name-is-missing': 'Informe seu nome',
     'auth/password-too-short': 'Senha é muito curta',
   },
   product: {
