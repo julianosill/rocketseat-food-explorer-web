@@ -60,6 +60,10 @@ export const Content = styled.div`
   justify-content: center;
   align-items: center;
 
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    padding: 4.8rem;
+  }
+
   @media (max-width: ${BREAKPOINTS.SM}) {
     padding: 5.8rem 2.6rem;
   }
