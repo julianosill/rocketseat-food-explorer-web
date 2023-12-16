@@ -1,29 +1,25 @@
-import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
-import { FiLogOut, FiSearch } from 'react-icons/fi'
+import { FiLogOut } from 'react-icons/fi'
 import { PiReceipt } from 'react-icons/pi'
 import { SlMenu } from 'react-icons/sl'
 
 import { useAuth } from '../../hooks/auth.useAuth'
 import { useCart } from '../../hooks/cart.useCart'
-
 import { useStateProvider } from '../../hooks/components.useStateProvider'
 
+import { SideMenu } from '../SideMenu'
 import { Container } from '../Container'
 import { Logo } from '../Logo'
-import { InputSearch } from '../InputSearch'
+import { Search } from '../Search'
 import { Button } from '../Button'
-import { SideMenu } from '../SideMenu'
 import * as S from './styles'
 
 export function Header() {
+  const { setMenuIsOpen } = useStateProvider()
   const { isAdmin, signOut } = useAuth()
   const { cart } = useCart()
-  const { setMenuIsOpen } = useStateProvider()
-  const [expandedSearch, setExpandedSearch] = useState(false)
 
-  const cartItems = cart.length > 0 ? cart.length : null
+  const badgeNumber = !isAdmin && cart?.length > 0 ? cart.length : null
   const navigate = useNavigate()
 
   return (
@@ -34,22 +30,18 @@ export function Header() {
           <S.MenuButton onClick={() => setMenuIsOpen(true)}>
             <SlMenu />
           </S.MenuButton>
+
           <S.Brand>
             <Link to="/">
-              <Logo admin={isAdmin} header />
+              <Logo admin={isAdmin} place="header" />
             </Link>
           </S.Brand>
+
           <S.Search className="mobile-hide">
-            <InputSearch
-              id="search"
-              label="Pesquisar"
-              icon={FiSearch}
-              onFocus={() => setExpandedSearch(true)}
-              onBlur={() => setExpandedSearch(false)}
-              placeholder="Busque por pratos ou ingredientes"
-            />
+            <Search id="main-search" />
           </S.Search>
-          <S.TextButtons data-hide={expandedSearch}>
+
+          <S.TextButtons>
             {isAdmin ? (
               <button onClick={() => navigate('/admin/adicionar')}>
                 Novo produto
@@ -59,33 +51,27 @@ export function Header() {
                 <button onClick={() => navigate('/favoritos')}>
                   Meus favoritos
                 </button>
-                <button onClick={() => navigate('/historico')}>
+                <button onClick={() => navigate('/pedidos')}>
                   Histórico de pedidos
                 </button>
               </>
             )}
           </S.TextButtons>
+
           <S.Order>
-            {!isAdmin && (
-              <Button icon={PiReceipt} onClick={() => navigate('/meupedido')}>
-                <span className="mobile-hide">
-                  Pedido {cartItems && `(${cartItems})`}
-                </span>
-                {cartItems && <S.Badge>{cartItems}</S.Badge>}
-              </Button>
-            )}
-            {isAdmin && (
-              <Button
-                icon={PiReceipt}
-                onClick={() => navigate('/admin/pedidos')}
-              >
-                <span className="mobile-hide">
-                  Pedidos {cartItems && `(${cartItems})`}
-                </span>
-                {cartItems && <S.Badge>{cartItems}</S.Badge>}
-              </Button>
-            )}
+            <Button
+              icon={PiReceipt}
+              onClick={() => {
+                isAdmin ? navigate('/pedidos') : navigate('/meupedido')
+              }}
+            >
+              <span className="mobile-hide">
+                Pedidos {badgeNumber && `(${badgeNumber})`}
+              </span>
+              {badgeNumber && <S.Badge>{badgeNumber}</S.Badge>}
+            </Button>
           </S.Order>
+
           <S.Logout
             title="Sair da conta"
             onClick={() => {

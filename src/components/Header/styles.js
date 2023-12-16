@@ -5,7 +5,6 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 export const Header = styled.header`
   position: fixed;
   z-index: 99;
-
   width: 100%;
   padding: 2.4rem 0;
 
@@ -21,7 +20,6 @@ export const Header = styled.header`
   @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
     > div {
       flex-wrap: wrap;
-      gap: 1.6rem;
     }
   }
 
@@ -39,10 +37,9 @@ export const Header = styled.header`
 export const MenuButton = styled.button`
   display: none;
 
-  color: ${({ theme }) => theme.COLORS.LIGHT_100};
-  font-size: 2.4rem;
-
   @media (max-width: ${BREAKPOINTS.SM}) {
+    font-size: 2.4rem;
+    color: ${({ theme }) => theme.COLORS.LIGHT_100};
     display: flex;
   }
 `
@@ -62,9 +59,9 @@ export const Search = styled.div`
   }
 
   @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    width: 65%;
     flex: auto;
-    order: 1;
-    width: 100%;
+    order: 4;
   }
 `
 
@@ -82,14 +79,8 @@ export const TextButtons = styled.div`
     }
   }
 
-  @media (min-width: ${BREAKPOINTS.MIN_MD}) and (max-width: ${BREAKPOINTS.XL}) {
-    &[data-hide='true'] {
-      display: none;
-    }
-  }
-
-  @media (max-width: ${BREAKPOINTS.MD}) {
-    gap: 1.6rem;
+  @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    order: 2;
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
@@ -109,8 +100,10 @@ export const Order = styled.div`
   }
 
   @media (max-width: ${BREAKPOINTS.MD}) {
+    order: 5;
+
     button {
-      padding: 0.8rem 2.4rem;
+      padding: 1rem 2.4rem;
 
       svg {
         font-size: 2.8rem;
@@ -143,10 +136,10 @@ export const Badge = styled.div`
 
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
 
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
   background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
+  border-radius: 50%;
 
   display: flex;
   align-items: center;
@@ -167,6 +160,10 @@ export const Logout = styled.button`
 
   > svg {
     font-size: 2.5rem;
+  }
+
+  @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
+    order: 3;
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
