@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-
 import { createContext, useEffect, useState } from 'react'
 
 import { useAuth } from '../hooks/auth.useAuth'
@@ -8,17 +7,15 @@ import { api } from '../services/api'
 export const FavoriteContext = createContext({})
 
 export function FavoriteProvider({ children }) {
-  const { userData } = useAuth()
-  const [isLoadingFavs, setIsLoadingFavs] = useState(false)
+  const { user } = useAuth()
   const [favorites, setFavorites] = useState([])
+  const [isLoadingFavs, setIsLoadingFavs] = useState(false)
 
   function addToFavorites(product) {
     const { id, name, image } = product
 
     const hasProduct = favorites.find(item => item.id === id)
-    if (hasProduct) {
-      return console.error('O produto já está salvo como favorito.')
-    }
+    if (hasProduct) return
 
     const updatedFavorites = [...favorites, { id, name, image }]
     setFavorites(updatedFavorites)
@@ -56,9 +53,10 @@ export function FavoriteProvider({ children }) {
     const storageFavorites = JSON.parse(
       localStorage.getItem('@foodexplorer:favorites')
     )
+
     const productsId = storageFavorites?.map(product => product.id)
-    userData && productsId?.length && fetchFavorites(productsId)
-  }, [userData])
+    user && productsId?.length && fetchFavorites(productsId)
+  }, [user])
 
   return (
     <FavoriteContext.Provider
