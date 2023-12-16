@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types'
 import * as S from './styles'
 
-function EmptyRoot({ children, ...props }) {
-  return <S.Container {...props}>{children}</S.Container>
+function EmptyRoot({ orientation = 'horizontal', children, ...props }) {
+  return (
+    <S.Container orientation={orientation} {...props}>
+      {children}
+    </S.Container>
+  )
 }
 
 function EmptyIcon({ icon: Icon }) {
@@ -34,12 +38,16 @@ export const Empty = {
 }
 
 const propTypes = {
+  orientation: PropTypes.oneOf(['vertical', 'horizontal']),
   children: PropTypes.node.isRequired,
   icon: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
 }
 
-EmptyRoot.propTypes = { children: propTypes.children }
+EmptyRoot.propTypes = {
+  orientation: propTypes.orientation,
+  children: propTypes.children,
+}
 EmptyIcon.propTypes = { icon: propTypes.icon }
 EmptyContent.propTypes = { children: propTypes.children }
 EmptyTitle.propTypes = { text: propTypes.text }

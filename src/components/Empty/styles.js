@@ -3,7 +3,12 @@ import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Container = styled.div`
+  text-align: ${({ orientation }) =>
+    orientation === 'vertical' ? 'center' : null};
+
   display: flex;
+  flex-direction: ${({ orientation }) =>
+    orientation === 'vertical' ? 'column' : 'row'};
   align-items: center;
   gap: 2rem;
 
