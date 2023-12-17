@@ -18,5 +18,8 @@ export const ERROR_MESSAGES = {
     'product/product-not-found': 'Produto não encontrado',
     'product/products-not-found': 'Produtos não encontrados',
   },
+  order: {
+    'order/orders-not-found': 'Nenhum pedido registrado',
+  },
   default: 'Algo deu errado. Por favor, contate nosso suporte.',
 }
