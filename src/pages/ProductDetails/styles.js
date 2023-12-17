@@ -1,6 +1,13 @@
 import styled from 'styled-components'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
+export const LoadingContainer = styled.div`
+  padding: 4.8rem 0;
+
+  display: flex;
+  align-items: center;
+`
+
 export const Container = styled.div`
   height: 100%;
   padding-top: 2.4rem;
@@ -10,16 +17,8 @@ export const Container = styled.div`
   }
 `
 
-export const LoadingContainer = styled.div`
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-`
-
 export const EmptyContainer = styled.div`
-  height: 100%;
+  padding: 4.8rem 0;
 
   display: flex;
   justify-content: center;

@@ -3,7 +3,6 @@ import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const LoadingContainer = styled.div`
-  width: 100%;
   padding: 4.8rem 0;
 
   display: flex;
@@ -40,7 +39,6 @@ export const Category = styled.section`
 `
 
 export const EmptyContainer = styled.div`
-  width: 100%;
   padding: 4.8rem 0;
 
   display: flex;

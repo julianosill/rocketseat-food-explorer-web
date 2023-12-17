@@ -3,8 +3,7 @@ import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const LoadingContainer = styled.div`
-  width: 100%;
-  height: 100%;
+  padding: 4.8rem 0;
 
   display: flex;
   align-items: center;

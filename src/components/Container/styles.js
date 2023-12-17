@@ -3,7 +3,6 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Container = styled.div`
   width: 100%;
-  height: 100%;
   max-width: ${BREAKPOINTS.XL};
   margin: 0 auto;
   padding: 0 12.3rem;
