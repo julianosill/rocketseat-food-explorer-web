@@ -1,17 +1,16 @@
 import styled from 'styled-components'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
-export const Container = styled.div`
-  height: 100%;
-  padding-top: 4rem;
+export const Header = styled.header`
+  margin: 4rem 0 3.2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    padding-top: 1rem;
+    margin: 1rem 0 3.2rem;
   }
-`
-
-export const Header = styled.header`
-  margin: 2.4rem 0 3.2rem;
 `
 
 export const LoadingContainer = styled.div`

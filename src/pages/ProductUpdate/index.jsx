@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { MdOutlineNoFood } from 'react-icons/md'
 
 import { api } from '../../services/api'
@@ -47,11 +47,11 @@ export function ProductUpdate() {
   }
 
   return (
-    <S.Container>
-      <BackButton size="sm" />
+    <>
       {product ? (
         <>
           <S.Header>
+            <BackButton size="sm" />
             <PageTitle>Editar produto</PageTitle>
           </S.Header>
           <FormProduct data={product} />
@@ -62,10 +62,13 @@ export function ProductUpdate() {
             <Empty.Icon icon={MdOutlineNoFood} />
             <Empty.Content>
               <Empty.Title text={error} />
+              <Empty.Message>
+                <Link to={-1}>Voltar</Link>
+              </Empty.Message>
             </Empty.Content>
           </Empty.Root>
         </S.EmptyContainer>
       )}
-    </S.Container>
+    </>
   )
 }

@@ -5,12 +5,12 @@ import * as S from './styles'
 
 export function ProductNew() {
   return (
-    <S.Container>
-      <BackButton size="sm" />
+    <>
       <S.Header>
+        <BackButton size="sm" />
         <PageTitle>Adicionar produto</PageTitle>
       </S.Header>
       <FormProduct />
-    </S.Container>
+    </>
   )
 }
