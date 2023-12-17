@@ -4,6 +4,7 @@ export function handleFilterByCategory(category, productList) {
   const filteredProducts = productList.filter(
     product => product.category === category
   )
+  if (filteredProducts.length === 0) return
   return filteredProducts
 }
 
