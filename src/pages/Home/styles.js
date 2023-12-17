@@ -4,10 +4,56 @@ import { BREAKPOINTS } from '../../styles/breakpoints'
 
 export const Header = styled.header`
   position: relative;
-
   width: 100%;
-  height: 26rem;
-  margin: 13rem 0 6.2rem;
+  margin: 4rem 0 6.2rem;
+  padding-top: 12rem;
+
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    margin-top: 1.8rem;
+    padding-top: 8rem;
+  }
+
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    padding-top: 2.6rem;
+  }
+
+  @media (max-width: ${BREAKPOINTS.XS}) {
+    padding-top: 2.4rem;
+  }
+`
+
+export const HeaderImage = styled.div`
+  position: absolute;
+  top: 0;
+  left: -3.2rem;
+  width: 50%;
+  height: 100%;
+
+  opacity: 0.6;
+  overflow: hidden;
+  transition: all 0.4s ease;
+
+  > img {
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    left: -1.8rem;
+    width: 48%;
+  }
+
+  @media (max-width: ${BREAKPOINTS.SM}) {
+    width: 42%;
+  }
+
+  @media (max-width: ${BREAKPOINTS.XS}) {
+    width: 45%;
+  }
+`
+
+export const HeaderContent = styled.div`
+  padding: 8.8rem 10rem 9.2rem;
 
   background-image: ${({ theme }) => theme.GRADIENTS.G200};
   border-radius: 0.8rem;
@@ -17,75 +63,24 @@ export const Header = styled.header`
   justify-content: end;
 
   @media (max-width: ${BREAKPOINTS.LG}) {
-    height: 22rem;
-    margin: 8rem 0 6.2rem;
+    padding: 8.8rem 8rem 9.2rem;
   }
 
-  @media (min-width: ${BREAKPOINTS.MIN_SM}) and (max-width: ${BREAKPOINTS.MD}) {
-    margin: 13rem 0 6.2rem;
-  }
-
-  @media (max-width: ${BREAKPOINTS.SM}) {
-    height: 12rem;
-    margin: 3rem 0 6.2rem;
-  }
-
-  @media (max-width: ${BREAKPOINTS.XS}) {
-    height: auto;
-    margin: 2rem 0 6.2rem;
-    padding: 2rem 0;
-  }
-`
-
-export const HeaderImage = styled.div`
-  position: absolute;
-  top: -13rem;
-  left: -3.2rem;
-
-  width: 50%;
-  height: calc(100% + 13rem);
-
-  overflow: hidden;
-  opacity: 0.8;
-
-  transition: all 0.4s ease;
-
-  > img {
-    width: 100%;
-  }
-
-  @media (min-width: ${BREAKPOINTS.MIN_LG}) {
-    ${Header}:hover & {
-      top: -15rem;
-      height: calc(100% + 15rem);
-      opacity: 1;
-    }
-  }
-
-  @media (max-width: ${BREAKPOINTS.LG}) {
-    top: -8rem;
-    left: -2rem;
-    width: 45%;
-    height: calc(100% + 8rem);
+  @media (max-width: ${BREAKPOINTS.MD}) {
+    padding: 5.8rem 4rem 6.2rem;
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
-    top: -3rem;
-    width: 40%;
-    height: calc(100% + 3rem);
+    padding: 3.6rem 1rem 2.2rem;
   }
 
   @media (max-width: ${BREAKPOINTS.XS}) {
-    top: -2rem;
-    width: 45%;
-    height: calc(100% + 2rem);
+    padding: 2.8rem 1rem 2rem;
   }
 `
 
 export const HeaderText = styled.div`
   width: 50%;
-  padding-right: 10rem;
-
   color: ${({ theme }) => theme.COLORS.LIGHT_300};
 
   > h1 {
@@ -99,16 +94,16 @@ export const HeaderText = styled.div`
 
   @media (max-width: ${BREAKPOINTS.LG}) {
     width: 55%;
-    padding-right: 4rem;
+  }
 
+  @media (max-width: ${BREAKPOINTS.MD}) {
     > h1 {
-      font-size: 3rem;
+      font-size: 3.2rem;
     }
   }
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     width: 60%;
-    padding-right: 2rem;
 
     > h1 {
       margin-bottom: 0.4rem;
@@ -117,8 +112,7 @@ export const HeaderText = styled.div`
     }
 
     > p {
-      ${FONT_STYLES.poppins300Regular}
-      font-size: 1.2rem;
+      ${FONT_STYLES.poppins50Regular}
     }
   }
 `

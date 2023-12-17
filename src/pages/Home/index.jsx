@@ -49,10 +49,12 @@ export function Home() {
             alt="Macarons, frutas e folhas espalhadas pelo ar"
           />
         </S.HeaderImage>
-        <S.HeaderText>
-          <h1>Sabores inigualáveis</h1>
-          <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
-        </S.HeaderText>
+        <S.HeaderContent>
+          <S.HeaderText>
+            <h1>Sabores inigualáveis</h1>
+            <p>Sinta o cuidado do preparo com ingredientes selecionados</p>
+          </S.HeaderText>
+        </S.HeaderContent>
       </S.Header>
 
       {isLoading && (
