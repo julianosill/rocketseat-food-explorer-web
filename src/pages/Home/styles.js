@@ -123,6 +123,13 @@ export const HeaderText = styled.div`
   }
 `
 
+export const LoadingContainer = styled.div`
+  padding: 4.8rem 0;
+
+  display: flex;
+  align-items: center;
+`
+
 export const Category = styled.section`
   margin-top: 4.8rem;
 
@@ -137,4 +144,12 @@ export const Category = styled.section`
       font-size: 1.8rem;
     }
   }
+`
+
+export const EmptyContainer = styled.div`
+  padding: 4.8rem 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
