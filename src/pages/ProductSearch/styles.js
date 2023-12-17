@@ -2,23 +2,16 @@ import styled from 'styled-components'
 import { FONT_STYLES } from '../../styles/fontStyles'
 import { BREAKPOINTS } from '../../styles/breakpoints'
 
-export const Header = styled.header``
-
-export const BackButton = styled.button`
-  ${FONT_STYLES.poppins300Bold}
-
-  color: ${({ theme }) => theme.COLORS.LIGHT_300};
+export const LoadingContainer = styled.div`
+  width: 100%;
+  padding: 4.8rem 0;
 
   display: flex;
   align-items: center;
+`
 
-  > svg {
-    font-size: 3.2rem;
-  }
-
-  @media (max-width: ${BREAKPOINTS.SM}) {
-    ${FONT_STYLES.poppins300Medium}
-  }
+export const Header = styled.header`
+  margin: 2.4rem 0 3.2rem;
 `
 
 export const Title = styled.h3`
@@ -44,4 +37,13 @@ export const Category = styled.section`
       font-size: 1.8rem;
     }
   }
+`
+
+export const EmptyContainer = styled.div`
+  width: 100%;
+  padding: 4.8rem 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-
-import { HiOutlineChevronLeft } from 'react-icons/hi'
+import { useSearchParams } from 'react-router-dom'
+import { MdOutlineNoFood } from 'react-icons/md'
 
 import { api } from '../../services/api'
 import { handleFilterByCategory } from '../../utils/handlers'
+import { handleFailedMessage } from '../../utils/handlers'
 
 import { Loading } from '../../components/Loading'
+import { BackButton } from '../../components/BackButton'
 import { ProductSlider } from '../../components/ProductSlider'
+import { Empty } from '../../components/Empty'
 import * as S from './styles'
 
 export function ProductSearch() {
   const [searchParams] = useSearchParams()
   const [products, setProducts] = useState(null)
-  const [isLoadingProducts, setIsLoadingProducts] = useState(false)
-  const [requestFailed, setRequestFailed] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const searchQuery = searchParams.get('pesquisa') || ''
-  const navigate = useNavigate()
 
   useEffect(() => {
     async function getProducts() {
-      setIsLoadingProducts(true)
-      setRequestFailed(null)
+      setIsLoading(true)
+      setProducts(null)
       await api
         .get(`/products?search=${searchQuery}`, { withCredentials: true })
         .then(response => {
@@ -33,55 +34,65 @@ export function ProductSearch() {
           })
         })
         .catch(error => {
-          console.log(error)
-          let errorMessage = 'error'
+          let errorMessage
           if (error.response) {
-            errorMessage = error.response.data.message || 'error'
+            errorMessage = error.response.data.message || null
           }
-          setRequestFailed(errorMessage)
+          setError(handleFailedMessage('product', errorMessage))
         })
-        .finally(() => setIsLoadingProducts(false))
+        .finally(() => setIsLoading(false))
     }
     getProducts()
   }, [searchQuery])
 
+  if (isLoading) {
+    return (
+      <S.LoadingContainer>
+        <Loading text="Carregando resultado de busca" />
+      </S.LoadingContainer>
+    )
+  }
+
   return (
     <>
       <S.Header>
-        <S.BackButton onClick={() => navigate(-1)}>
-          <HiOutlineChevronLeft /> voltar
-        </S.BackButton>
+        <BackButton />
 
-        <S.Title>
-          {searchQuery
-            ? `Exibindo resultados de busca por: ${searchQuery}`
-            : 'Estes são todos os produtos disponíveis em nosso catálogo.'}
-        </S.Title>
+        {searchQuery && (
+          <S.Title>{`Exibindo resultado de busca por: ${searchQuery}`}</S.Title>
+        )}
       </S.Header>
 
-      {isLoadingProducts && (
-        <Loading text="Carregando deliciosas informações..." />
-      )}
-
-      {products?.dishes.length > 0 && (
+      {products?.dishes && (
         <S.Category>
           <h2>Refeições</h2>
           <ProductSlider data={products.dishes} />
         </S.Category>
       )}
 
-      {products?.desserts.length > 0 && (
+      {products?.desserts && (
         <S.Category>
           <h2>Sobremesas</h2>
           <ProductSlider data={products.desserts} />
         </S.Category>
       )}
 
-      {products?.drinks.length > 0 && (
+      {products?.drinks && (
         <S.Category>
           <h2>Bebidas</h2>
           <ProductSlider data={products.drinks} />
         </S.Category>
+      )}
+
+      {!products && (
+        <S.EmptyContainer>
+          <Empty.Root orientation="vertical">
+            <Empty.Icon icon={MdOutlineNoFood} />
+            <Empty.Content>
+              <Empty.Title text={error} />
+            </Empty.Content>
+          </Empty.Root>
+        </S.EmptyContainer>
       )}
     </>
   )
