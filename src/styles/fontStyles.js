@@ -26,6 +26,11 @@ const FONTS = {
 }
 
 export const FONT_STYLES = {
+  poppins50Regular: `
+    ${FONTS.poppinsRegular}
+    font-size: 1.2rem;
+    line-height: 1.4;
+  `,
   poppins100Medium: `
     ${FONTS.poppinsMedium}
     font-size: 1.4rem;
