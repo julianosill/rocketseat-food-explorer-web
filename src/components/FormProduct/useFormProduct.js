@@ -29,6 +29,7 @@ export function useFormProduct() {
       }
 
       toast.success(`"${product.name}" foi adicionado com sucesso.`)
+      navigate('/')
     } catch (error) {
       console.error(error)
       handleApiError(error)
@@ -53,6 +54,7 @@ export function useFormProduct() {
         .put(`/products/${id}`, product, { withCredentials: true })
         .then(() => {
           toast.success(`"${product.name}" foi atualizado com sucesso.`)
+          navigate('/')
         })
     } catch (error) {
       console.error(error)
