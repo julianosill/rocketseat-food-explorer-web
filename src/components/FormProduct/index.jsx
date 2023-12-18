@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import { imageUrl } from '../../services/api'
@@ -36,8 +35,6 @@ export function FormProduct({ data }) {
   const [imageFile, setImageFile] = useState(null)
   const [newIngredient, setNewIngredient] = useState('')
   const [error, setError] = useState(null)
-
-  const navigate = useNavigate()
 
   function preventDefault(e) {
     if (e.code === 'Enter') {
@@ -117,11 +114,6 @@ export function FormProduct({ data }) {
   async function handleDeleteProduct(e) {
     e.preventDefault()
     deleteProduct(product)
-  }
-
-  function handleCancel(e) {
-    e.preventDefault()
-    navigate(-1)
   }
 
   return (
@@ -210,7 +202,6 @@ export function FormProduct({ data }) {
       {error?.apiError && <S.Error>{error.apiError}</S.Error>}
 
       <S.Actions>
-        <Button text="Cancelar" variant="secondary" onClick={handleCancel} />
         {product ? (
           <>
             <Button

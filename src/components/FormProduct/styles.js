@@ -55,6 +55,13 @@ export const Actions = styled.div`
   gap: 3.2rem;
 
   @media (max-width: ${BREAKPOINTS.SM}) {
+    button {
+      width: 100%;
+      padding: 1.2rem;
+    }
+  }
+
+  @media (max-width: ${BREAKPOINTS.XS}) {
     flex-direction: column;
   }
 `
