@@ -9,7 +9,7 @@ import { Container } from '../Container'
 import { Footer } from '../Footer'
 import * as S from './styles'
 
-export function PageWrapper({ page }) {
+export function PageWrapper({ page: Page }) {
   const [menuIsOpen, setMenuIsOpen] = useState(false)
 
   return (
@@ -18,7 +18,9 @@ export function PageWrapper({ page }) {
       <Header setMenuIsOpen={setMenuIsOpen} />
       <S.Content>
         <S.Main>
-          <Container>{page}</Container>
+          <Container>
+            <Page />
+          </Container>
         </S.Main>
         <Footer />
       </S.Content>
@@ -32,5 +34,5 @@ export function PageWrapper({ page }) {
 }
 
 PageWrapper.propTypes = {
-  page: PropTypes.node.isRequired,
+  page: PropTypes.func.isRequired,
 }
