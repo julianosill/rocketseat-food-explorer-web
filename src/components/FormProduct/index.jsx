@@ -36,6 +36,9 @@ export function FormProduct({ data }) {
   const [newIngredient, setNewIngredient] = useState('')
   const [error, setError] = useState(null)
 
+  const disableSubmit =
+    !image || !name || !category || !ingredients || !price || !description
+
   function preventDefault(e) {
     if (e.code === 'Enter') {
       e.preventDefault()
@@ -226,7 +229,7 @@ export function FormProduct({ data }) {
           <Button
             icon={loadingAdd ? AiOutlineLoading3Quarters : null}
             text={loadingAdd ? 'Adicionando produto...' : 'Adicionar produto'}
-            disabled={loadingAdd}
+            disabled={loadingAdd || disableSubmit}
             loading={loadingAdd}
             onClick={handleSubmit}
           />
