@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 
 import { SignIn } from '../pages/SignIn'
 import { SignUp } from '../pages/SignUp'
@@ -8,6 +8,8 @@ export function AuthRoutes() {
     <Routes>
       <Route path="/" element={<SignIn />} />
       <Route path="/registrar" element={<SignUp />} />
+
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )
 }
