@@ -34,12 +34,11 @@ export function OrderHistory() {
   }
 
   async function handleStatusChange(orderId, status) {
-    const orderToUpdate = { id: orderId, status }
     await api
-      .put('/orders', orderToUpdate, { withCredentials: true })
+      .put(`/orders/${orderId}`, { status }, { withCredentials: true })
       .then(() => {
         fetchOrders()
-        toast.success(`Pedido ${orderToUpdate.id} foi atualizado com sucesso.`)
+        toast.success(`Pedido ${orderId} foi atualizado com sucesso.`)
       })
       .catch(error => console.error(error))
   }
