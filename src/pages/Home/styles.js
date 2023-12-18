@@ -29,7 +29,7 @@ export const HeaderImage = styled.div`
   width: 50%;
   height: 100%;
 
-  opacity: 0.6;
+  opacity: 0.7;
   overflow: hidden;
   transition: all 0.4s ease;
 
