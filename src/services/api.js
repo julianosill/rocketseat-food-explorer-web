@@ -1,10 +1,7 @@
 import axios from 'axios'
 
-const URL = 'http://localhost'
-const PORT = '3333'
-
 export const api = axios.create({
-  baseURL: `${URL}:${PORT}`,
+  baseURL: import.meta.env.VITE_API_URL,
 })
 
-export const imageUrl = `${URL}:${PORT}/files`
+export const imageUrl = `${import.meta.env.VITE_API_URL}/files`
