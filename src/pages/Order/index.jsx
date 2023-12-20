@@ -27,7 +27,7 @@ export function Order() {
   const [coupon, setCoupon] = useState(null)
   const [couponError, setCouponError] = useState(false)
   const [orderPrice, setOrderPrice] = useState(0)
-  const [orderStep, setOrderStep] = useState('order-list')
+  const [orderStep, setOrderStep] = useState('order')
 
   const hasOrderItems = order?.length > 0
   const couponRef = useRef()
@@ -123,7 +123,7 @@ export function Order() {
 
   return (
     <S.Container>
-      <S.Order data-hide={orderStep !== 'order-list'}>
+      <S.Order $step={orderStep}>
         <S.Header>
           <PageTitle>Meu pedido</PageTitle>
         </S.Header>
@@ -188,22 +188,22 @@ export function Order() {
           </Empty.Root>
         )}
 
-        <S.OrderAction>
+        <S.OrderAction $step={orderStep}>
           <Button text="Avançar" onClick={() => handleMobileStep('payment')} />
         </S.OrderAction>
       </S.Order>
 
       {hasOrderItems && (
-        <S.Payment data-hide={orderStep !== 'payment'}>
+        <S.Payment $step={orderStep}>
           <S.Header>
             <PageTitle>Pagamento</PageTitle>
           </S.Header>
           <PaymentCard onPaymentConfirm={handleOrder} />
-          <S.OrderAction>
+          <S.OrderAction $step={orderStep}>
             <Button
               text="Voltar"
               variant="secondary"
-              onClick={() => handleMobileStep('order-list')}
+              onClick={() => handleMobileStep('order')}
             />
           </S.OrderAction>
         </S.Payment>

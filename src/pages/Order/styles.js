@@ -31,22 +31,17 @@ export const Order = styled.section`
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     width: 100%;
-
-    &[data-hide='true'] {
-      display: none;
-    }
+    display: ${({ $step }) => ($step === 'order' ? null : 'none')};
   }
 `
 
 export const OrderContent = styled.div`
-  /* width: 100%; */
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
 `
 
 export const OrderList = styled.ul`
-  /* width: 100%; */
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
@@ -84,16 +79,20 @@ export const Payment = styled.section`
 
   @media (max-width: ${BREAKPOINTS.SM}) {
     width: 100%;
-
-    &[data-hide='true'] {
-      display: none;
-    }
+    display: ${({ $step }) => ($step === 'payment' ? null : 'none')};
   }
 `
 
 export const OrderAction = styled.div`
   width: 100%;
   margin-top: 3.1rem;
+
+  display: flex;
+  justify-content: ${({ $step }) => {
+    if ($step === 'order') return 'end'
+    if ($step === 'payment') return 'start'
+    return null
+  }};
 
   > button {
     padding: 1.2rem 3.2rem;
