@@ -172,6 +172,12 @@ export function Order() {
               )}
               <ShowTotalPrice />
             </S.OrderPrice>
+            <S.OrderAction $step={orderStep}>
+              <Button
+                text="Avançar"
+                onClick={() => handleMobileStep('payment')}
+              />
+            </S.OrderAction>
           </S.OrderContent>
         )}
 
@@ -187,10 +193,6 @@ export function Order() {
             </Empty.Content>
           </Empty.Root>
         )}
-
-        <S.OrderAction $step={orderStep}>
-          <Button text="Avançar" onClick={() => handleMobileStep('payment')} />
-        </S.OrderAction>
       </S.Order>
 
       {hasOrderItems && (
