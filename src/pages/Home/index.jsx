@@ -84,7 +84,7 @@ export function Home() {
         </S.Category>
       )}
 
-      {!products && (
+      {!isLoading && !products && (
         <S.EmptyContainer>
           <Empty.Root orientation="vertical">
             <Empty.Icon icon={MdOutlineNoFood} />
