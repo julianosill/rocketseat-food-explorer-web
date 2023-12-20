@@ -122,29 +122,29 @@ export const Order = styled.div`
         font-size: 3.2rem;
       }
     }
-  }
-`
 
-export const Badge = styled.div`
-  ${FONT_STYLES.poppins100Medium}
+    button[data-count] {
+      &::before {
+        ${FONT_STYLES.poppins100Medium}
 
-  position: absolute;
-  top: -0.5rem;
-  right: -0.5rem;
+        content: attr(data-count);
 
-  width: 2rem;
-  height: 2rem;
+        position: absolute;
+        top: -0.5rem;
+        right: -0.5rem;
 
-  color: ${({ theme }) => theme.COLORS.LIGHT_100};
-  background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
-  border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+        color: ${({ theme }) => theme.COLORS.LIGHT_100};
+        background-color: ${({ theme }) => theme.COLORS.TOMATO_100};
+        border-radius: 50%;
 
-  @media (min-width: ${BREAKPOINTS.MIN_SM}) {
-    display: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 `
 

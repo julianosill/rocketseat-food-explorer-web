@@ -52,6 +52,7 @@ export function Header({ setMenuIsOpen }) {
 
         <S.Order>
           <Button
+            data-count={badgeNumber}
             icon={PiReceipt}
             onClick={() => {
               isAdmin ? navigate('/pedidos') : navigate('/meupedido')
@@ -60,7 +61,6 @@ export function Header({ setMenuIsOpen }) {
             <span className="mobile-hide">
               Pedidos {badgeNumber && `(${badgeNumber})`}
             </span>
-            {badgeNumber && <S.Badge>{badgeNumber}</S.Badge>}
           </Button>
         </S.Order>
 
