@@ -16,8 +16,8 @@ export function Search({ onSearch, ...props }) {
     if (!query) return
 
     navigate(`/produtos?pesquisa=${query}`)
-    setQuery('')
-    return onSearch()
+    if (onSearch) onSearch()
+    return setQuery('')
   }
 
   return (
