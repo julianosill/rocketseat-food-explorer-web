@@ -47,9 +47,11 @@ A aplicação possui três níveis de autorização: visitante, cliente e admini
 - Gerenciar pedidos (visualizar e alterar status)
 ```
 
+---
+
 ## _Live preview_
 
-Acesse o _live preview_ [clicando aqui](https://www.netlify.com), utilizando uma das contas já cadastradas ou criando uma nova.
+Acesse o _live preview_ [clicando aqui](https://js-food-explorer-web.netlify.app), crie uma nova conta ou acesse uma das contas já cadastradas:
 
 ```bash
 # Admin
@@ -61,7 +63,15 @@ e-mail: cliente@foodexplorer.com.br
 senha: 123456
 ```
 
+### Cupom de desconto
+
+Utilize o códido `FOOD15` para simular a aplicação do cupom de desconto na página de pedido.
+
 _Obs.: A aplicação está hospedada no serviço [Netlify](https://www.netlify.com) em plano gratuito. Por isso, podem ocorrer algumas diferenças de desempenho em determinados momentos._
+
+---
+
+Confira a API desenvolvida para esta aplicação [clicando aqui](https://github.com/julianosill/rocketseat-food-explorer-api).
 
 ---
 
@@ -99,13 +109,13 @@ _Obs.: A aplicação está hospedada no serviço [Netlify](https://www.netlify.c
 Clone este repositório executando o comando:
 
 ```bash
-git clone https://github.com/julianosill/rocketseat-food-explorer.git
+git clone https://github.com/julianosill/rocketseat-food-explorer-web.git
 ```
 
 Acesse a pasta do projeto e instale as dependências necessárias:
 
 ```bash
-cd rocketseat-food-explorer
+cd rocketseat-food-explorer-web
 npm install
 ```
 
